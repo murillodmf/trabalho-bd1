@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Mapeamento ER/Mapeamento ER.iml" filepath="$PROJECT_DIR$/Mapeamento ER/Mapeamento ER.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/trabalho-bd1.iml" filepath="$PROJECT_DIR$/.idea/trabalho-bd1.iml" />
     </modules>
   </component>
