@@ -61,7 +61,7 @@ CREATE TABLE objetiva (
 
 CREATE TABLE objetiva_resposta (
     id_questao INT,
-    alternativa VARCHAR(255) NOT NULL, -- Part of PK, implicitly NOT NULL, but explicit for clarity
+    alternativa VARCHAR(255) NOT NULL,
     CONSTRAINT pk_objetiva_resposta PRIMARY KEY (id_questao, alternativa),
     CONSTRAINT fk_or_objetiva FOREIGN KEY (id_questao) REFERENCES objetiva(id_questao)
         ON UPDATE CASCADE
