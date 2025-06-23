@@ -21,7 +21,6 @@ CREATE TABLE turma (
     registro INT,
     CONSTRAINT pk_turma PRIMARY KEY (cod),
     CONSTRAINT fk_turma_professor FOREIGN KEY (registro) REFERENCES professor(registro)
-        ON UPDATE CASCADE
         ON DELETE SET NULL
 );
 
@@ -43,10 +42,8 @@ CREATE TABLE avaliacao_contem_questao (
     id_questao INT,
     CONSTRAINT pk_avaliacao_contem_questao PRIMARY KEY (id_prova, id_questao),
     CONSTRAINT fk_acq_avaliacao FOREIGN KEY (id_prova) REFERENCES avaliacao(id_prova)
-        ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT fk_acq_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
-        ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
@@ -55,7 +52,6 @@ CREATE TABLE objetiva (
     resposta VARCHAR(255) NOT NULL,
     CONSTRAINT pk_objetiva PRIMARY KEY (id_questao),
     CONSTRAINT fk_objetiva_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
-        ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
@@ -64,7 +60,6 @@ CREATE TABLE objetiva_resposta (
     alternativa VARCHAR(255) NOT NULL,
     CONSTRAINT pk_objetiva_resposta PRIMARY KEY (id_questao, alternativa),
     CONSTRAINT fk_or_objetiva FOREIGN KEY (id_questao) REFERENCES objetiva(id_questao)
-        ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
@@ -74,7 +69,6 @@ CREATE TABLE dissertativa (
     resposta TEXT,
     CONSTRAINT pk_dissertativa PRIMARY KEY (id_questao),
     CONSTRAINT fk_dissertativa_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
-        ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
@@ -86,12 +80,9 @@ CREATE TABLE realizaProva (
     comentario TEXT,
     CONSTRAINT pk_realizaProva PRIMARY KEY (id_prova, id_questao, matricula),
     CONSTRAINT fk_rp_avaliacao FOREIGN KEY (id_prova) REFERENCES avaliacao(id_prova)
-        ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT fk_rp_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
-        ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT fk_rp_aluno FOREIGN KEY (matricula) REFERENCES aluno(matricula)
-        ON UPDATE CASCADE
         ON DELETE CASCADE
 );
