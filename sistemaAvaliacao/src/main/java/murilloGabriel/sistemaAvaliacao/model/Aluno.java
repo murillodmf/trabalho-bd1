@@ -3,7 +3,8 @@ package murilloGabriel.sistemaAvaliacao.model;
 public class Aluno {
     private Integer matricula;
     private String cpf;
-    private String nome;
+    private String pnome;
+    private String snome;
     private Integer idade;
 
     public Integer getMatricula() {
@@ -22,12 +23,20 @@ public class Aluno {
         this.cpf = cpf;
     }
 
-    public String getNome() {
-        return nome;
+    public String getPnome() {
+        return pnome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setPnome(String pnome) {
+        this.pnome = pnome;
+    }
+
+    public String getSnome() {
+        return snome;
+    }
+
+    public void setSnome(String snome) {
+        this.snome = snome;
     }
 
     public Integer getIdade() {
@@ -37,5 +46,4 @@ public class Aluno {
     public void setIdade(Integer idade) {
         this.idade = idade;
     }
-
 }

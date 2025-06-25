@@ -20,17 +20,19 @@ public class AlunoService {
         Aluno aluno = new Aluno();
         aluno.setMatricula(rs.getInt("matricula"));
         aluno.setCpf(rs.getString("cpf"));
-        aluno.setNome(rs.getString("nome"));
+        aluno.setPnome(rs.getString("pnome"));
+        aluno.setSnome(rs.getString("snome"));
         aluno.setIdade(rs.getInt("idade"));
         return aluno;
     };
 
     public void salvar(Aluno aluno) {
-        String sql = "INSERT INTO aluno (matricula, cpf, nome, idade) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO aluno (matricula, cpf, pnome, snome, idade) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 aluno.getMatricula(),
                 aluno.getCpf(),
-                aluno.getNome(),
+                aluno.getPnome(),
+                aluno.getSnome(),
                 aluno.getIdade());
     }
 
@@ -46,10 +48,11 @@ public class AlunoService {
     }
 
     public void atualizar(Aluno aluno) {
-        String sql = "UPDATE aluno SET cpf = ?, nome = ?, idade = ? WHERE matricula = ?";
+        String sql = "UPDATE aluno SET cpf = ?, pnome = ?, snome = ?, idade = ? WHERE matricula = ?";
         jdbcTemplate.update(sql,
                 aluno.getCpf(),
-                aluno.getNome(),
+                aluno.getPnome(),
+                aluno.getSnome(),
                 aluno.getIdade(),
                 aluno.getMatricula());
     }
