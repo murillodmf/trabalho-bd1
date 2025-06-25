@@ -1,103 +1,51 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
-import murilloGabriel.sistemaAvaliacao.dto.QuestaoDTO;
-import murilloGabriel.sistemaAvaliacao.model.*;
-import murilloGabriel.sistemaAvaliacao.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import murilloGabriel.sistemaAvaliacao.model.Objetiva;
+import murilloGabriel.sistemaAvaliacao.model.Questao;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestaoService {
 
-    @Autowired private QuestaoRepository questaoRepository;
-    @Autowired private ObjetivaRepository objetivaRepository;
-    @Autowired private DissertativaRepository dissertativaRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Transactional // Garante que ou tudo é salvo, ou nada é (consistência do banco)
-    public QuestaoDTO criarQuestao(QuestaoDTO dto) {
-        // 1. Salva a questão base
-        Questao questao = new Questao();
-        questao.setEnunciado(dto.getEnunciado());
-        questao.setTipo(dto.getTipo());
-        Questao questaoSalva = questaoRepository.save(questao);
-
-        Integer id = questaoSalva.getId();
-        dto.setId(id);
-
-        // 2. Salva a parte específica (objetiva ou dissertativa)
-        if ("objetiva".equalsIgnoreCase(dto.getTipo())) {
-            Objetiva obj = new Objetiva();
-            obj.setIdQuestao(id);
-            // Pega as 5 primeiras alternativas da lista para preencher A, B, C, D, E
-            List<String> alts = dto.getAlternativas();
-            obj.setAlternativaA(alts.size() > 0 ? alts.get(0) : null);
-            obj.setAlternativaB(alts.size() > 1 ? alts.get(1) : null);
-            obj.setAlternativaC(alts.size() > 2 ? alts.get(2) : null);
-            obj.setAlternativaD(alts.size() > 3 ? alts.get(3) : null);
-            obj.setAlternativaE(alts.size() > 4 ? alts.get(4) : null);
-            obj.setRespostaCorreta(dto.getRespostaCorreta());
-            objetivaRepository.save(obj);
-        } else if ("dissertativa".equalsIgnoreCase(dto.getTipo())) {
-            Dissertativa diss = new Dissertativa();
-            diss.setIdQuestao(id);
-            diss.setRespostaModelo(dto.getRespostaModelo());
-            dissertativaRepository.save(diss);
-        } else {
-            throw new IllegalArgumentException("Tipo de questão inválido: " + dto.getTipo());
-        }
-
-        return dto;
+    public QuestaoService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<QuestaoDTO> buscarPorId(Integer id) {
-        Optional<Questao> questaoOpt = questaoRepository.findById(id);
-        if (questaoOpt.isEmpty()) {
-            return Optional.empty();
-        }
+    public void salvarQuestaoObjetiva(Objetiva objetiva) {
+        // Insere na tabela questao
+        String sqlQuestao = "INSERT INTO questao (id_questao, enunciado) VALUES (?, ?)";
+        jdbcTemplate.update(sqlQuestao, objetiva.getIdQuestao(), "enunciado qualquer");
 
-        Questao questao = questaoOpt.get();
-        QuestaoDTO dto = new QuestaoDTO();
-        dto.setId(questao.getId());
-        dto.setEnunciado(questao.getEnunciado());
-        dto.setTipo(questao.getTipo());
+        // Insere na tabela objetiva
+        String sqlObjetiva = "INSERT INTO objetiva (id_questao, resposta) VALUES (?, ?)";
+        jdbcTemplate.update(sqlObjetiva, objetiva.getIdQuestao(), objetiva.getRespostaCorreta());
 
-        if ("objetiva".equalsIgnoreCase(questao.getTipo())) {
-            objetivaRepository.findById(id).ifPresent(obj -> {
-                List<String> alternativas = new ArrayList<>();
-                if (obj.getAlternativaA() != null) alternativas.add(obj.getAlternativaA());
-                if (obj.getAlternativaB() != null) alternativas.add(obj.getAlternativaB());
-                if (obj.getAlternativaC() != null) alternativas.add(obj.getAlternativaC());
-                if (obj.getAlternativaD() != null) alternativas.add(obj.getAlternativaD());
-                if (obj.getAlternativaE() != null) alternativas.add(obj.getAlternativaE());
-                dto.setAlternativas(alternativas);
-                dto.setRespostaCorreta(obj.getRespostaCorreta());
-            });
-        } else if ("dissertativa".equalsIgnoreCase(questao.getTipo())) {
-            dissertativaRepository.findById(id).ifPresent(diss -> {
-                dto.setRespostaModelo(diss.getRespostaModelo());
-            });
+        // Insere as alternativas
+        String sqlAlternativas = "INSERT INTO objetiva_resposta (id_questao, alternativa) VALUES (?, ?)";
+        for (String alternativa : objetiva.getAlternativas()) {
+            jdbcTemplate.update(sqlAlternativas, objetiva.getIdQuestao(), alternativa);
         }
-        return Optional.of(dto);
     }
 
-    public List<QuestaoDTO> listarTodas() {
-        return questaoRepository.findAll().stream()
-                .map(q -> buscarPorId(q.getId()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
-    }
+    public Objetiva buscarObjetivaPorId(Integer idQuestao) {
+        String sqlResposta = "SELECT resposta FROM objetiva WHERE id_questao = ?";
+        String respostaCorreta = jdbcTemplate.queryForObject(sqlResposta, String.class, idQuestao);
 
-    @Transactional
-    public void deletar(Integer id) {
-        // Graças ao "ON DELETE CASCADE" no SQL, ao deletar a questão,
-        // o registro correspondente em 'objetiva' ou 'dissertativa' será deletado automaticamente.
-        questaoRepository.deleteById(id);
+        String sqlAlternativas = "SELECT alternativa FROM objetiva_resposta WHERE id_questao = ?";
+        List<String> alternativas = jdbcTemplate.query(sqlAlternativas,
+                (rs, rowNum) -> rs.getString("alternativa"), idQuestao);
+
+        Objetiva obj = new Objetiva();
+        obj.setIdQuestao(idQuestao);
+        obj.setRespostaCorreta(respostaCorreta);
+        obj.setAlternativas(alternativas);
+        return obj;
     }
 }

@@ -1,63 +1,43 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
-import murilloGabriel.sistemaAvaliacao.dto.CorrecaoDTO;
-import murilloGabriel.sistemaAvaliacao.dto.RespostaEnvioDTO;
 import murilloGabriel.sistemaAvaliacao.model.Resposta;
-import murilloGabriel.sistemaAvaliacao.repository.AlunoRepository;
-import murilloGabriel.sistemaAvaliacao.repository.AvaliacaoRepository;
-import murilloGabriel.sistemaAvaliacao.repository.RespostaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class RespostaService {
 
-    @Autowired
-    private RespostaRepository respostaRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private AlunoRepository alunoRepository;
-
-    @Autowired
-    private AvaliacaoRepository avaliacaoRepository;
-
-    @Transactional
-    public void submeterRespostas(Integer idProva, Integer matriculaAluno, List<RespostaEnvioDTO> respostasDTO) {
-        // Validação básica para garantir que o aluno e a avaliação existem.
-        if (alunoRepository.findById(matriculaAluno).isEmpty() || avaliacaoRepository.findById(idProva).isEmpty()) {
-            throw new IllegalArgumentException("Aluno ou Avaliação não encontrado.");
-        }
-
-        for (RespostaEnvioDTO dto : respostasDTO) {
-            Resposta resposta = new Resposta();
-            resposta.setIdProva(idProva);
-            resposta.setMatriculaAluno(matriculaAluno);
-            resposta.setIdQuestao(dto.getIdQuestao());
-            resposta.setRespostaDissertativa(dto.getRespostaTexto());
-            resposta.setRespostaObjetiva(dto.getRespostaAlternativa());
-
-            // A lógica de auto-correção para questões objetivas poderia ser adicionada aqui.
-            // Por simplicidade, estamos apenas salvando a resposta do aluno.
-
-            respostaRepository.save(resposta);
-        }
+    public RespostaService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Resposta> buscarRespostasDeUmAluno(Integer idProva, Integer matriculaAluno) {
-        return respostaRepository.findByProvaAndAluno(idProva, matriculaAluno);
+    private final RowMapper<Resposta> respostaMapper = (rs, rowNum) -> {
+        Resposta resposta = new Resposta();
+        resposta.setIdProva(rs.getInt("id_prova"));
+        resposta.setIdQuestao(rs.getInt("id_questao"));
+        resposta.setMatricula(rs.getInt("matricula"));
+        resposta.setNota(rs.getDouble("nota"));
+        resposta.setComentario(rs.getString("comentario"));
+        return resposta;
+    };
+
+    public void salvarResposta(Resposta resposta) {
+        String sql = "INSERT INTO realizaProva (id_prova, id_questao, matricula, nota, comentario) VALUES (?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                resposta.getIdProva(),
+                resposta.getIdQuestao(),
+                resposta.getMatricula(),
+                resposta.getNota(),
+                resposta.getComentario());
     }
 
-    @Transactional
-    public void corrigirResposta(Integer idProva, Integer matriculaAluno, Integer idQuestao, CorrecaoDTO correcaoDTO) {
-        respostaRepository.corrigirResposta(
-                idProva,
-                idQuestao,
-                matriculaAluno,
-                correcaoDTO.getNota(),
-                correcaoDTO.getComentario()
-        );
+    public List<Resposta> buscarPorProva(Integer idProva) {
+        String sql = "SELECT * FROM realizaProva WHERE id_prova = ?";
+        return jdbcTemplate.query(sql, respostaMapper, idProva);
     }
 }

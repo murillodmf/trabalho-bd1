@@ -3,17 +3,16 @@ package murilloGabriel.sistemaAvaliacao.model;
 import java.time.LocalDate;
 
 public class Avaliacao {
-    
-    private Integer id;
+    private Integer idProva;
     private LocalDate data;
     private Double notaMaxima;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdProva() {
+        return idProva;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProva(Integer idProva) {
+        this.idProva = idProva;
     }
 
     public LocalDate getData() {
@@ -31,5 +30,4 @@ public class Avaliacao {
     public void setNotaMaxima(Double notaMaxima) {
         this.notaMaxima = notaMaxima;
     }
-
 }
