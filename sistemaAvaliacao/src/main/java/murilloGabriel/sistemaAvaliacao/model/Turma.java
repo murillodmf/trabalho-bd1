@@ -1,29 +1,41 @@
 package murilloGabriel.sistemaAvaliacao.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-@Table("turma")
 public class Turma {
-
-    @Id
+    
     private Integer cod;
     private String materia;
-
-    @Column("quantidade_alunos")
     private Integer quantidadeAlunos;
-
-    @Column("registro_professor")
     private Integer registroProfessor;
 
-    // Getters e Setters
-    public Integer getCod() { return cod; }
-    public void setCod(Integer cod) { this.cod = cod; }
-    public String getMateria() { return materia; }
-    public void setMateria(String materia) { this.materia = materia; }
-    public Integer getQuantidadeAlunos() { return quantidadeAlunos; }
-    public void setQuantidadeAlunos(Integer quantidadeAlunos) { this.quantidadeAlunos = quantidadeAlunos; }
-    public Integer getRegistroProfessor() { return registroProfessor; }
-    public void setRegistroProfessor(Integer registroProfessor) { this.registroProfessor = registroProfessor; }
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
+    }
+
+    public String getMateria() {
+        return materia;
+    }
+
+    public void setMateria(String materia) {
+        this.materia = materia;
+    }
+
+    public Integer getQuantidadeAlunos() {
+        return quantidadeAlunos;
+    }
+
+    public void setQuantidadeAlunos(Integer quantidadeAlunos) {
+        this.quantidadeAlunos = quantidadeAlunos;
+    }
+
+    public Integer getRegistroProfessor() {
+        return registroProfessor;
+    }
+
+    public void setRegistroProfessor(Integer registroProfessor) {
+        this.registroProfessor = registroProfessor;
+    }
 }

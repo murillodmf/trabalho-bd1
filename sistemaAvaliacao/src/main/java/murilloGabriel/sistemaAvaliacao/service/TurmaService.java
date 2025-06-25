@@ -1,7 +1,6 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.dto.TurmaDTO;
-import murilloGabriel.sistemaAvaliacao.model.Professor;
 import murilloGabriel.sistemaAvaliacao.model.Turma;
 import murilloGabriel.sistemaAvaliacao.repository.ProfessorRepository;
 import murilloGabriel.sistemaAvaliacao.repository.TurmaRepository;
