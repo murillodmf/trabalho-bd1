@@ -1,3 +1,5 @@
+-- Dados em massa para teste do banco
+
 -- Dados para a tabela professor
 INSERT INTO professor (registro, nome, CPF) VALUES
                                                 (1001, 'Dr. Ana Paula Silva', '11122233301'),
