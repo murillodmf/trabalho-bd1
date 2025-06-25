@@ -1,21 +1,13 @@
-package murilloGabriel.sistemaAvaliacao.model;
+package murilloGabriel.sistemaAvaliacao.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-@Table("turma")
-public class Turma {
-
-    @Id
+public class TurmaDTO {
     private Integer cod;
     private String materia;
-
-    @Column("quantidade_alunos")
     private Integer quantidadeAlunos;
 
-    @Column("registro_professor")
+    // Informações do Professor
     private Integer registroProfessor;
+    private String nomeProfessor;
 
     // Getters e Setters
     public Integer getCod() { return cod; }
@@ -26,4 +18,6 @@ public class Turma {
     public void setQuantidadeAlunos(Integer quantidadeAlunos) { this.quantidadeAlunos = quantidadeAlunos; }
     public Integer getRegistroProfessor() { return registroProfessor; }
     public void setRegistroProfessor(Integer registroProfessor) { this.registroProfessor = registroProfessor; }
+    public String getNomeProfessor() { return nomeProfessor; }
+    public void setNomeProfessor(String nomeProfessor) { this.nomeProfessor = nomeProfessor; }
 }
