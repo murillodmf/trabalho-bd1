@@ -2,6 +2,7 @@ package murilloGabriel.sistemaAvaliacao.service;
 
 import java.util.List;
 
+import murilloGabriel.sistemaAvaliacao.repository.AvaliacaoContemQuestaoRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import murilloGabriel.sistemaAvaliacao.model.AvaliacaoContemQuestao;
@@ -9,22 +10,21 @@ import murilloGabriel.sistemaAvaliacao.model.AvaliacaoContemQuestao;
 @Service
 public class AvaliacaoContemQuestaoService {
 
-    private final JdbcTemplate jdbc;
+    private final AvaliacaoContemQuestaoRepository repo;
 
-    public AvaliacaoContemQuestaoService(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
+    public AvaliacaoContemQuestaoService(AvaliacaoContemQuestaoRepository repo) {
+        this.repo = repo;
     }
 
-    public void inserir(AvaliacaoContemQuestao acq) {
-        String sql = "INSERT INTO avaliacao_contem_questao (idProva, idQuestao) VALUES (?, ?)";
-        jdbc.update(sql, acq.getIdProva(), acq.getIdQuestao());
+    public void salvar(AvaliacaoContemQuestao acq) {
+        repo.salvar(acq);
     }
 
-    public List<AvaliacaoContemQuestao> listar() {
-        String sql = "SELECT * FROM avaliacao_contem_questao";
-        return jdbc.query(sql, (rs, rowNum) -> new AvaliacaoContemQuestao(
-                rs.getInt("idProva"),
-                rs.getInt("idQuestao")
-        ));
+    public void deletarPorProva(int idProva) {
+        repo.deletarPorProva(idProva);
+    }
+
+    public void deletarPorQuestao(int idQuestao) {
+        repo.deletarPorQuestao(idQuestao);
     }
 }
