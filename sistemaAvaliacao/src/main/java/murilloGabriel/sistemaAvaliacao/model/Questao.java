@@ -2,9 +2,9 @@ package murilloGabriel.sistemaAvaliacao.model;
 
 public class Questao {
 
-    private Integer id;
-    private String enunciado;
-    private String tipo; // "objetiva" ou "dissertativa"
+    private Integer id;       // id da questão (pk)
+    private String enunciado; // texto da questão
+    private String tipo;      // "objetiva" ou "dissertativa"
 
     public Integer getId() {
         return id;
