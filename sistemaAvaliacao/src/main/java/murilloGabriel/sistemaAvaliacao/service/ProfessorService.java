@@ -2,31 +2,34 @@ package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.model.Professor;
 import murilloGabriel.sistemaAvaliacao.repository.ProfessorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ProfessorService {
 
-    @Autowired
-    private ProfessorRepository professorRepository;
+    private final ProfessorRepository repo;
 
-    public Professor salvar(Professor professor) {
-        return professorRepository.save(professor);
+    public ProfessorService(ProfessorRepository repo) {
+        this.repo = repo;
     }
 
-    public List<Professor> listarTodos() {
-        return professorRepository.findAll();
+    public void salvar(Professor p) {
+        repo.salvar(p);
     }
 
-    public Optional<Professor> buscarPorId(Integer registro) {
-        return professorRepository.findById(registro);
+    public List<Professor> listar() {
+        return repo.listar();
     }
 
-    public void deletar(Integer registro) {
-        professorRepository.deleteById(registro);
+    public Professor buscar(int registro) {
+        return repo.buscar(registro);
+    }
+
+    public void atualizar(Professor p) {
+        repo.atualizar(p);
+    }
+
+    public void deletar(int registro) {
+        repo.deletar(registro);
     }
 }

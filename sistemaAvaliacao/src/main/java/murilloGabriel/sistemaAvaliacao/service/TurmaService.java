@@ -1,63 +1,36 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
-import murilloGabriel.sistemaAvaliacao.dto.TurmaDTO;
 import murilloGabriel.sistemaAvaliacao.model.Turma;
-import murilloGabriel.sistemaAvaliacao.repository.ProfessorRepository;
 import murilloGabriel.sistemaAvaliacao.repository.TurmaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TurmaService {
 
-    @Autowired
-    private TurmaRepository turmaRepository;
+    private final TurmaRepository repo;
 
-    @Autowired
-    private ProfessorRepository professorRepository; // Injetado para buscar dados do professor
-
-    @Transactional
-    public Turma salvar(Turma turma) {
-        // Valida se o professor referenciado realmente existe
-        professorRepository.findById(turma.getRegistroProfessor())
-                .orElseThrow(() -> new IllegalArgumentException("Professor com registro " + turma.getRegistroProfessor() + " não encontrado."));
-
-        return turmaRepository.save(turma);
+    public TurmaService(TurmaRepository repo) {
+        this.repo = repo;
     }
 
-    public void deletar(Integer cod) {
-        turmaRepository.deleteById(cod);
+    public void salvar(Turma turma) {
+        repo.salvar(turma);
     }
 
-    public List<TurmaDTO> listarTodas() {
-        return turmaRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<Turma> listar() {
+        return repo.listar();
     }
 
-    public Optional<TurmaDTO> buscarPorId(Integer cod) {
-        return turmaRepository.findById(cod).map(this::convertToDto);
+    public Turma buscar(int cod) {
+        return repo.buscar(cod);
     }
 
-    // Método privado para converter uma entidade Turma em um TurmaDTO
-    private TurmaDTO convertToDto(Turma turma) {
-        TurmaDTO dto = new TurmaDTO();
-        dto.setCod(turma.getCod());
-        dto.setMateria(turma.getMateria());
-        dto.setQuantidadeAlunos(turma.getQuantidadeAlunos());
-        dto.setRegistroProfessor(turma.getRegistroProfessor());
+    public void atualizar(Turma turma) {
+        repo.atualizar(turma);
+    }
 
-        // Busca o nome do professor e adiciona ao DTO
-        if (turma.getRegistroProfessor() != null) {
-            professorRepository.findById(turma.getRegistroProfessor())
-                    .ifPresent(professor -> dto.setNomeProfessor(professor.getNome()));
-        }
-
-        return dto;
+    public void deletar(int cod) {
+        repo.deletar(cod);
     }
 }

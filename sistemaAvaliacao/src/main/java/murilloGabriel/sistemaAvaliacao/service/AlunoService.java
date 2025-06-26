@@ -10,29 +10,29 @@ import murilloGabriel.sistemaAvaliacao.repository.AlunoRepository;
 @Service
 public class AlunoService {
 
-    private final AlunoRepository alunoRepository;
+    private final AlunoRepository repo;
 
-    public AlunoService(AlunoRepository alunoRepository) {
-        this.alunoRepository = alunoRepository;
+    public AlunoService(AlunoRepository repo) {
+        this.repo = repo;
     }
 
     public void salvar(Aluno aluno) {
-        alunoRepository.salvar(aluno);
+        repo.salvar(aluno);
     }
 
-    public List<Aluno> buscarTodos() {
-        return alunoRepository.buscarTodos();
+    public List<Aluno> listar() {
+        return repo.listar();
     }
 
-    public Aluno buscarPorMatricula(Integer matricula) {
-        return alunoRepository.buscarPorMatricula(matricula);
+    public Aluno buscar(int matricula) {
+        return repo.buscar(matricula);
     }
 
     public void atualizar(Aluno aluno) {
-        alunoRepository.atualizar(aluno);
+        repo.atualizar(aluno);
     }
 
-    public void deletar(Integer matricula) {
-        alunoRepository.deletar(matricula);
+    public void deletar(int matricula) {
+        repo.deletar(matricula);
     }
 }
