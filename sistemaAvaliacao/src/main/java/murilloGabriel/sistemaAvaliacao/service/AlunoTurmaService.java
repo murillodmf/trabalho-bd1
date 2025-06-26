@@ -4,6 +4,8 @@ import murilloGabriel.sistemaAvaliacao.model.AlunoTurma;
 import murilloGabriel.sistemaAvaliacao.repository.AlunoTurmaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AlunoTurmaService {
 
