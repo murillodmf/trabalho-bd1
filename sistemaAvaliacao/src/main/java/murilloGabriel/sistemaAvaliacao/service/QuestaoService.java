@@ -1,36 +1,37 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.model.Questao;
+import murilloGabriel.sistemaAvaliacao.repository.QuestaoRepository;
 import java.util.List;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
+@Service
 public class QuestaoService {
 
-    private final List<Questao> questoes = new ArrayList<>();
+    private final QuestaoRepository repo;
 
-    public List<Questao> listarTodas() {
-        return questoes;
+    public QuestaoService(QuestaoRepository repo) {
+        this.repo = repo;
     }
 
-    public Questao buscarPorId(Integer id) {
-        return questoes.stream()
-                .filter(q -> q.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public void salvar(Questao q) {
+        repo.salvar(q);
     }
 
-    public Questao salvar(Questao questao) {
-        Questao existente = buscarPorId(questao.getId());
-        if (existente != null) {
-            existente.setEnunciado(questao.getEnunciado());
-            existente.setTipo(questao.getTipo());
-            return existente;
-        }
-        questoes.add(questao);
-        return questao;
+    public List<Questao> listar() {
+        return repo.listar();
     }
 
-    public boolean deletar(Integer id) {
-        return questoes.removeIf(q -> q.getId().equals(id));
+    public Questao buscar(int id) {
+        return repo.buscar(id);
+    }
+
+    public void atualizar(Questao q) {
+        repo.atualizar(q);
+    }
+
+    public void deletar(int id) {
+        repo.deletar(id);
     }
 }
