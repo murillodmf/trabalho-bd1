@@ -2,12 +2,7 @@ package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.model.RealizaProva;
 import murilloGabriel.sistemaAvaliacao.repository.RealizaProvaRepository;
-
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class RealizaProvaService {

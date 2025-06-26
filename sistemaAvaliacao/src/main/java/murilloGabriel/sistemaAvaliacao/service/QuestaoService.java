@@ -4,7 +4,6 @@ import murilloGabriel.sistemaAvaliacao.model.Questao;
 import murilloGabriel.sistemaAvaliacao.repository.QuestaoRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 
 @Service
 public class QuestaoService {
