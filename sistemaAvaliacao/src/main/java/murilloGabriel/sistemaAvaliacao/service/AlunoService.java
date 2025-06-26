@@ -1,64 +1,38 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
-import murilloGabriel.sistemaAvaliacao.model.Aluno;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import murilloGabriel.sistemaAvaliacao.model.Aluno;
+import murilloGabriel.sistemaAvaliacao.repository.AlunoRepository;
 
 @Service
 public class AlunoService {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final AlunoRepository alunoRepository;
 
-    public AlunoService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AlunoService(AlunoRepository alunoRepository) {
+        this.alunoRepository = alunoRepository;
     }
 
-    private final RowMapper<Aluno> alunoMapper = (rs, rowNum) -> {
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(rs.getInt("matricula"));
-        aluno.setCpf(rs.getString("cpf"));
-        aluno.setPnome(rs.getString("pnome"));
-        aluno.setSnome(rs.getString("snome"));
-        aluno.setIdade(rs.getInt("idade"));
-        return aluno;
-    };
-
     public void salvar(Aluno aluno) {
-        String sql = "INSERT INTO aluno (matricula, cpf, pnome, snome, idade) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                aluno.getMatricula(),
-                aluno.getCpf(),
-                aluno.getPnome(),
-                aluno.getSnome(),
-                aluno.getIdade());
+        alunoRepository.salvar(aluno);
     }
 
     public List<Aluno> buscarTodos() {
-        String sql = "SELECT * FROM aluno";
-        return jdbcTemplate.query(sql, alunoMapper);
+        return alunoRepository.buscarTodos();
     }
 
     public Aluno buscarPorMatricula(Integer matricula) {
-        String sql = "SELECT * FROM aluno WHERE matricula = ?";
-        List<Aluno> resultado = jdbcTemplate.query(sql, alunoMapper, matricula);
-        return resultado.isEmpty() ? null : resultado.get(0);
+        return alunoRepository.buscarPorMatricula(matricula);
     }
 
     public void atualizar(Aluno aluno) {
-        String sql = "UPDATE aluno SET cpf = ?, pnome = ?, snome = ?, idade = ? WHERE matricula = ?";
-        jdbcTemplate.update(sql,
-                aluno.getCpf(),
-                aluno.getPnome(),
-                aluno.getSnome(),
-                aluno.getIdade(),
-                aluno.getMatricula());
+        alunoRepository.atualizar(aluno);
     }
 
     public void deletar(Integer matricula) {
-        String sql = "DELETE FROM aluno WHERE matricula = ?";
-        jdbcTemplate.update(sql, matricula);
+        alunoRepository.deletar(matricula);
     }
 }
