@@ -6,6 +6,7 @@ public class Avaliacao {
     private Integer idProva;
     private LocalDate data;
     private Double notaMaxima;
+    private Integer codTurma;
 
     public Integer getIdProva() {
         return idProva;
@@ -29,5 +30,13 @@ public class Avaliacao {
 
     public void setNotaMaxima(Double notaMaxima) {
         this.notaMaxima = notaMaxima;
+    }
+
+    public Integer getCodTurma() {
+        return codTurma;
+    }
+
+    public void setCodTurma(Integer codTurma) {
+        this.codTurma = codTurma;
     }
 }

@@ -1,8 +1,7 @@
 package murilloGabriel.sistemaAvaliacao.model;
 
 import java.io.Serializable;
-
-public class AvaliacaoContemQuestao implements Serializable { 
+public class AvaliacaoContemQuestao implements Serializable {
 
     private Integer idProva;
     private Integer idQuestao;
@@ -31,4 +30,16 @@ public class AvaliacaoContemQuestao implements Serializable {
         this.idQuestao = idQuestao;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AvaliacaoContemQuestao that = (AvaliacaoContemQuestao) o;
+        return idProva.equals(that.idProva) && idQuestao.equals(that.idQuestao);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(idProva, idQuestao);
+    }
 }

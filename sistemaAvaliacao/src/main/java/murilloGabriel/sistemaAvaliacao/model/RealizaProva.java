@@ -1,12 +1,26 @@
 package murilloGabriel.sistemaAvaliacao.model;
 
-public class Resposta {
+import java.io.Serializable;
+
+// ALTERADO: O nome do arquivo e da classe deve ser RealizaProva.java
+public class RealizaProva implements Serializable {
 
     private Integer idProva;
     private Integer idQuestao;
     private Integer matricula;
     private Double nota;
     private String comentario;
+
+    public RealizaProva() {
+    }
+
+    public RealizaProva(Integer idProva, Integer idQuestao, Integer matricula, Double nota, String comentario) {
+        this.idProva = idProva;
+        this.idQuestao = idQuestao;
+        this.matricula = matricula;
+        this.nota = nota;
+        this.comentario = comentario;
+    }
 
     public Integer getIdProva() {
         return idProva;
@@ -46,5 +60,18 @@ public class Resposta {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RealizaProva that = (RealizaProva) o;
+        return idProva.equals(that.idProva) && idQuestao.equals(that.idQuestao) && matricula.equals(that.matricula);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(idProva, idQuestao, matricula);
     }
 }

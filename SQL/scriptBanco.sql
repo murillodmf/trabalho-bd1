@@ -1,7 +1,9 @@
 CREATE TABLE professor (
     registro INT,
-    nome VARCHAR(100) NOT NULL,
+    p_nome VARCHAR(50) NOT NULL,
+    s_nome VARCHAR(50),
     CPF CHAR(11) NOT NULL,
+    idade INT,
     CONSTRAINT pk_professor PRIMARY KEY (registro)
 );
 
@@ -28,7 +30,10 @@ CREATE TABLE avaliacao (
     id_prova INT,
     data DATE NOT NULL,
     nota_maxima DECIMAL(5,2) NOT NULL,
-    CONSTRAINT pk_avaliacao PRIMARY KEY (id_prova)
+    cod_turma INT,
+    CONSTRAINT pk_avaliacao PRIMARY KEY (id_prova),
+    CONSTRAINT fk_avaliacao_turma FOREIGN KEY (cod_turma) REFERENCES turma(cod)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE questao (
@@ -84,5 +89,15 @@ CREATE TABLE realizaProva (
     CONSTRAINT fk_rp_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
         ON DELETE CASCADE,
     CONSTRAINT fk_rp_aluno FOREIGN KEY (matricula) REFERENCES aluno(matricula)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE aluno_turma (
+    matricula INT,
+    cod_turma INT,
+    CONSTRAINT pk_aluno_turma PRIMARY KEY (matricula, cod_turma),
+    CONSTRAINT fk_at_aluno FOREIGN KEY (matricula) REFERENCES aluno(matricula)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_at_turma FOREIGN KEY (cod_turma) REFERENCES turma(cod)
         ON DELETE CASCADE
 );

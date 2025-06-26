@@ -2,16 +2,16 @@ package murilloGabriel.sistemaAvaliacao.model;
 
 public class Questao {
 
-    private Integer id;
-    private String enunciado; 
-    private String tipo;  
+    private Integer idQuestao;
+    private String enunciado;
 
-    public Integer getId() {
-        return id;
+
+    public Integer getIdQuestao() {
+        return idQuestao;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdQuestao(Integer idQuestao) {
+        this.idQuestao = idQuestao;
     }
 
     public String getEnunciado() {
@@ -20,13 +20,5 @@ public class Questao {
 
     public void setEnunciado(String enunciado) {
         this.enunciado = enunciado;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 }
