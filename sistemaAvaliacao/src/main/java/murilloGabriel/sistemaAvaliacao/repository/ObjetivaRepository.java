@@ -13,15 +13,16 @@ public class ObjetivaRepository {
     }
 
     public void salvar(Objetiva o) {
-        jdbc.update("INSERT INTO objetiva (idQuestao, respostaCorreta) VALUES (?, ?)",
+        jdbc.update("INSERT INTO objetiva (id_questao, resposta) VALUES (?, ?)",
                 o.getIdQuestao(), o.getRespostaCorreta());
-        for (String alt : o.getAlternativas()) {
-            jdbc.update("INSERT INTO alternativa (idQuestao, texto) VALUES (?, ?)", o.getIdQuestao(), alt);
-        }
+    }
+
+    public void atualizar(Objetiva o) {
+        jdbc.update("UPDATE objetiva SET resposta = ? WHERE id_questao = ?",
+                o.getRespostaCorreta(), o.getIdQuestao());
     }
 
     public void deletar(int idQuestao) {
-        jdbc.update("DELETE FROM alternativa WHERE idQuestao = ?", idQuestao);
-        jdbc.update("DELETE FROM objetiva WHERE idQuestao = ?", idQuestao);
+        jdbc.update("DELETE FROM objetiva WHERE id_questao = ?", idQuestao);
     }
 }

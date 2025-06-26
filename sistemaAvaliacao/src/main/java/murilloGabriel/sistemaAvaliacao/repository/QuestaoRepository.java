@@ -16,22 +16,31 @@ public class QuestaoRepository {
 
     private final RowMapper<Questao> mapper = (rs, rowNum) -> {
         Questao q = new Questao();
-        q.setId(rs.getInt("id"));
+        q.setIdQuestao(rs.getInt("id_questao"));
         q.setEnunciado(rs.getString("enunciado"));
-        q.setTipo(rs.getString("tipo"));
         return q;
     };
 
     public void salvar(Questao q) {
-        jdbc.update("INSERT INTO questao (id, enunciado, tipo) VALUES (?, ?, ?)",
-                q.getId(), q.getEnunciado(), q.getTipo());
+        jdbc.update("INSERT INTO questao (id_questao, enunciado) VALUES (?, ?)",
+                q.getIdQuestao(), q.getEnunciado());
     }
 
     public List<Questao> listar() {
         return jdbc.query("SELECT * FROM questao", mapper);
     }
 
+    public Questao buscar(int id) {
+        List<Questao> l = jdbc.query("SELECT * FROM questao WHERE id_questao = ?", mapper, id);
+        return l.isEmpty() ? null : l.get(0);
+    }
+
+    public void atualizar(Questao q) {
+        jdbc.update("UPDATE questao SET enunciado = ? WHERE id_questao = ?",
+                q.getEnunciado(), q.getIdQuestao());
+    }
+
     public void deletar(int id) {
-        jdbc.update("DELETE FROM questao WHERE id = ?", id);
+        jdbc.update("DELETE FROM questao WHERE id_questao = ?", id);
     }
 }

@@ -13,11 +13,15 @@ public class ObjetivaRespostaRepository {
     }
 
     public void salvar(ObjetivaResposta or) {
-        jdbc.update("INSERT INTO objetiva_resposta (idQuestao, alternativa) VALUES (?, ?)",
+        jdbc.update("INSERT INTO objetiva_resposta (id_questao, alternativa) VALUES (?, ?)",
                 or.getIdQuestao(), or.getAlternativa());
     }
 
-    public void deletar(int idQuestao) {
-        jdbc.update("DELETE FROM objetiva_resposta WHERE idQuestao = ?", idQuestao);
+    public void deletar(int idQuestao, String alternativa) {
+        jdbc.update("DELETE FROM objetiva_resposta WHERE id_questao = ? AND alternativa = ?", idQuestao, alternativa);
+    }
+
+    public void deletarTodasDeUmaQuestao(int idQuestao) {
+        jdbc.update("DELETE FROM objetiva_resposta WHERE id_questao = ?", idQuestao);
     }
 }

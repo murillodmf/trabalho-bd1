@@ -10,44 +10,43 @@ import murilloGabriel.sistemaAvaliacao.model.Aluno;
 
 @Repository
 public class AlunoRepository {
+    private final JdbcTemplate jdbc;
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public AlunoRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AlunoRepository(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
     }
 
-    private final RowMapper<Aluno> alunoMapper = (rs, rowNum) -> {
-        Aluno aluno = new Aluno();
-        aluno.setMatricula(rs.getInt("matricula"));
-        aluno.setCpf(rs.getString("cpf"));
-        aluno.setPnome(rs.getString("pnome"));
-        aluno.setSnome(rs.getString("snome"));
-        aluno.setIdade(rs.getInt("idade"));
-        return aluno;
+    private final RowMapper<Aluno> mapper = (rs, rowNum) -> {
+        Aluno a = new Aluno();
+        a.setMatricula(rs.getInt("matricula"));
+        a.setCpf(rs.getString("cpf"));
+        a.setPnome(rs.getString("pnome"));
+        a.setSnome(rs.getString("snome"));
+        a.setIdade(rs.getInt("idade"));
+        return a;
     };
 
-    public void salvar(Aluno aluno) {
-        String sql = "INSERT INTO aluno (matricula, cpf, pnome, snome, idade) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, aluno.getMatricula(), aluno.getCpf(), aluno.getPnome(), aluno.getSnome(), aluno.getIdade());
+    public void salvar(Aluno a) {
+        jdbc.update("INSERT INTO aluno (matricula, cpf, pnome, snome, idade) VALUES (?, ?, ?, ?, ?)",
+                a.getMatricula(), a.getCpf(), a.getPnome(), a.getSnome(), a.getIdade());
     }
 
-    public List<Aluno> buscarTodos() {
-        return jdbcTemplate.query("SELECT * FROM aluno", alunoMapper);
+    public List<Aluno> listar() {
+        return jdbc.query("SELECT * FROM aluno", mapper);
     }
 
-    public Aluno buscarPorMatricula(Integer matricula) {
-        String sql = "SELECT * FROM aluno WHERE matricula = ?";
-        List<Aluno> resultado = jdbcTemplate.query(sql, alunoMapper, matricula);
-        return resultado.isEmpty() ? null : resultado.get(0);
+    public Aluno buscar(int matricula) {
+        List<Aluno> l = jdbc.query("SELECT * FROM aluno WHERE matricula = ?", mapper, matricula);
+        return l.isEmpty() ? null : l.get(0);
     }
 
-    public void atualizar(Aluno aluno) {
-        String sql = "UPDATE aluno SET cpf = ?, pnome = ?, snome = ?, idade = ? WHERE matricula = ?";
-        jdbcTemplate.update(sql, aluno.getCpf(), aluno.getPnome(), aluno.getSnome(), aluno.getIdade(), aluno.getMatricula());
+    public void atualizar(Aluno a) {
+        jdbc.update("UPDATE aluno SET cpf = ?, pnome = ?, snome = ?, idade = ? WHERE matricula = ?",
+                a.getCpf(), a.getPnome(), a.getSnome(), a.getIdade(), a.getMatricula());
     }
 
-    public void deletar(Integer matricula) {
-        jdbcTemplate.update("DELETE FROM aluno WHERE matricula = ?", matricula);
+    public void deletar(int matricula) {
+        jdbc.update("DELETE FROM aluno WHERE matricula = ?", matricula);
     }
 }
+
