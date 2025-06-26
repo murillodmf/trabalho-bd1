@@ -53,5 +53,4 @@ public class AvaliacaoService {
         jdbc.update(sql, idProva);
     }
 
-
 }

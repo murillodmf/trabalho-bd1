@@ -2,11 +2,11 @@ package murilloGabriel.sistemaAvaliacao.model;
 
 public class Resposta {
 
-    private Integer idProva;    // FK para prova
-    private Integer idQuestao;  // FK para questão
-    private Integer matricula;  // FK para aluno
-    private Double nota;        // nota atribuída
-    private String comentario;  // resposta dissertativa ou comentário
+    private Integer idProva;
+    private Integer idQuestao;
+    private Integer matricula;
+    private Double nota;
+    private String comentario;
 
     public Integer getIdProva() {
         return idProva;
