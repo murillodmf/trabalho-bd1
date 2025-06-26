@@ -23,7 +23,7 @@ public class AvaliacaoController {
 
     @GetMapping
     public ResponseEntity<List<Avaliacao>> listarAvaliacoes() {
-        List<Avaliacao> avaliacoes = avaliacaoService.buscarTodas();
+        List<Avaliacao> avaliacoes = avaliacaoService.listar();
         return ResponseEntity.ok(avaliacoes);
     }
 
@@ -41,7 +41,7 @@ public class AvaliacaoController {
     public ResponseEntity<Avaliacao> atualizarAvaliacao(@PathVariable Integer id, @RequestBody Avaliacao avaliacao) {
         Avaliacao existente = avaliacaoService.buscarPorId(id);
         if (existente != null) {
-            avaliacao.setIdProva(id); // Garante que o ID venha da URL
+            avaliacao.setIdProva(id);
             avaliacaoService.atualizar(avaliacao);
             return ResponseEntity.ok(avaliacao);
         } else {
