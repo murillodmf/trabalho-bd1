@@ -2,7 +2,6 @@ package murilloGabriel.sistemaAvaliacao.model;
 
 import java.io.Serializable;
 
-// ALTERADO: O nome do arquivo e da classe deve ser RealizaProva.java
 public class RealizaProva implements Serializable {
 
     private Integer idProva;
@@ -62,16 +61,4 @@ public class RealizaProva implements Serializable {
         this.comentario = comentario;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RealizaProva that = (RealizaProva) o;
-        return idProva.equals(that.idProva) && idQuestao.equals(that.idQuestao) && matricula.equals(that.matricula);
-    }
-
-    @Override
-    public int hashCode() {
-        return java.util.Objects.hash(idProva, idQuestao, matricula);
-    }
 }

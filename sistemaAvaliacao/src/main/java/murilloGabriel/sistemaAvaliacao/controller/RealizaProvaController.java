@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/respostas")
+@RequestMapping("/realizaProva")
 public class RealizaProvaController {
     @Autowired
     private RealizaProvaService service;
@@ -21,8 +21,14 @@ public class RealizaProvaController {
         service.atualizar(r);
     }
 
-    @DeleteMapping("/{idProva}/{idQuestao}/{matricula}")
-    public void deletar(@PathVariable int idProva, @PathVariable int idQuestao, @PathVariable int matricula) {
-        service.deletar(idProva, idQuestao, matricula);
+    @GetMapping
+    public void listar() {
+        service.listar();
+    }
+
+    @DeleteMapping("/{idProva}/{idQuestao}/{matricula}/{nota}/{comentario}")
+    public void deletar(@PathVariable int idProva, @PathVariable int idQuestao, @PathVariable int matricula, 
+                        @PathVariable Double nota, @PathVariable String comentario) {
+        service.deletar(idProva, idQuestao, matricula, nota, comentario);
     }
 }

@@ -21,8 +21,12 @@ public class RealizaProvaService {
         repo.atualizar(r);
     }
 
-    public void deletar(int idProva, int idQuestao, int matricula) {
-        repo.deletar(idProva, idQuestao, matricula);
+    public void listar() {
+        repo.listar();
+    }
+
+    public void deletar(int idProva, int idQuestao, int matricula, Double nota, String comentario) {
+        repo.deletar(idProva, idQuestao, matricula, nota, comentario);
     }
 }
 

@@ -23,8 +23,21 @@ public class RealizaProvaRepository {
                 r.getNota(), r.getComentario(), r.getIdProva(), r.getIdQuestao(), r.getMatricula());
     }
 
-    public void deletar(int idProva, int idQuestao, int matricula) {
-        jdbc.update("DELETE FROM realizaProva WHERE id_prova = ? AND id_questao = ? AND matricula = ?",
+    public void listar() {
+        jdbc.query("SELECT * FROM realizaProva", (rs, rowNum) -> {
+            RealizaProva r = new RealizaProva();
+            r.setIdProva(rs.getInt("id_prova"));
+            r.setIdQuestao(rs.getInt("id_questao"));
+            r.setMatricula(rs.getInt("matricula"));
+            r.setNota(rs.getDouble("nota"));
+            r.setComentario(rs.getString("comentario"));
+            return r;
+        });
+        
+    }
+
+    public void deletar(int idProva, int idQuestao, int matricula, Double nota, String comentario) {
+        jdbc.update("DELETE FROM realizaProva WHERE id_prova = ? AND id_questao = ? AND matricula = ? AND nota = ? AND comentario = ?",
                 idProva, idQuestao, matricula);
     }
 }
