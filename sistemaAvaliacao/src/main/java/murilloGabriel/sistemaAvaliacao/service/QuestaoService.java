@@ -2,35 +2,35 @@ package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.model.Questao;
 import murilloGabriel.sistemaAvaliacao.repository.QuestaoRepository;
-import java.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class QuestaoService {
+    private final QuestaoRepository repository;
 
-    private final QuestaoRepository repo;
-
-    public QuestaoService(QuestaoRepository repo) {
-        this.repo = repo;
+    public QuestaoService(QuestaoRepository repository) {
+        this.repository = repository;
     }
 
     public void salvar(Questao q) {
-        repo.salvar(q);
+        repository.salvar(q);
     }
 
     public List<Questao> listar() {
-        return repo.listar();
+        return repository.listar();
     }
 
     public Questao buscar(int id) {
-        return repo.buscar(id);
+        return repository.buscar(id);
     }
 
     public void atualizar(Questao q) {
-        repo.atualizar(q);
+        repository.atualizar(q);
     }
 
     public void deletar(int id) {
-        repo.deletar(id);
+        repository.deletar(id);
     }
 }

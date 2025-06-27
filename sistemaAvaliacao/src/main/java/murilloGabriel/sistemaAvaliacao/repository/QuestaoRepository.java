@@ -3,7 +3,11 @@ package murilloGabriel.sistemaAvaliacao.repository;
 import murilloGabriel.sistemaAvaliacao.model.Questao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
@@ -22,8 +26,21 @@ public class QuestaoRepository {
     };
 
     public void salvar(Questao q) {
-        jdbc.update("INSERT INTO questao (id_questao, enunciado) VALUES (?, ?)",
-                q.getIdQuestao(), q.getEnunciado());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbc.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                "INSERT INTO questao (enunciado) VALUES (?)",
+                new String[] { "id_questao" }
+            );
+            ps.setString(1, q.getEnunciado());
+            return ps;
+        }, keyHolder);
+
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            q.setIdQuestao(key.intValue());
+        }
     }
 
     public List<Questao> listar() {

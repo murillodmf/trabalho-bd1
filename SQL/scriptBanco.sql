@@ -37,9 +37,8 @@ CREATE TABLE avaliacao (
 );
 
 CREATE TABLE questao (
-    id_questao INT,
-    enunciado TEXT NOT NULL,
-    CONSTRAINT pk_questao PRIMARY KEY (id_questao)
+    id_questao SERIAL PRIMARY KEY,
+    enunciado TEXT NOT NULL
 );
 
 CREATE TABLE avaliacao_contem_questao (
