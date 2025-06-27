@@ -3,7 +3,6 @@ package murilloGabriel.sistemaAvaliacao.service;
 import java.util.List;
 
 import murilloGabriel.sistemaAvaliacao.repository.AvaliacaoRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import murilloGabriel.sistemaAvaliacao.model.Avaliacao;

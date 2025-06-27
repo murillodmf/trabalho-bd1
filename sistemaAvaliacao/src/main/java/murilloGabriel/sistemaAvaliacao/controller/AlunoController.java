@@ -1,9 +1,8 @@
 package murilloGabriel.sistemaAvaliacao.controller;
 
 import murilloGabriel.sistemaAvaliacao.model.Aluno;
-import murilloGabriel.sistemaAvaliacao.service.AlunoService; // Importar o AlunoService
-import org.springframework.beans.factory.annotation.Autowired; // Necessário para @Autowired
-import org.springframework.http.HttpStatus; // Necessário para HttpStatus.CREATED, etc.
+import murilloGabriel.sistemaAvaliacao.service.AlunoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,49 +13,32 @@ import java.util.List;
 public class AlunoController {
 
     @Autowired
-    private AlunoService alunoService;
+    private AlunoService service;
 
     @PostMapping
-    public ResponseEntity<Aluno> criarAluno(@RequestBody Aluno aluno) {
-        alunoService.salvar(aluno);
-        return ResponseEntity.status(HttpStatus.CREATED).body(aluno);
+    public void salvar(@RequestBody Aluno a) {
+        service.salvar(a);
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> listarAlunos() {
-        List<Aluno> alunos = alunoService.buscarTodos();
-        return ResponseEntity.ok(alunos);
+    public List<Aluno> listar() {
+        return service.listar();
     }
 
     @GetMapping("/{matricula}")
-    public ResponseEntity<Aluno> buscarAlunoPorMatricula(@PathVariable Integer matricula) {
-        Aluno aluno = alunoService.buscarPorMatricula(matricula);
-        if (aluno != null) {
-            return ResponseEntity.ok(aluno);
-        } else {
-            return ResponseEntity.notFound().build(); 
-        }
+    public ResponseEntity<Aluno> buscar(@PathVariable int matricula) {
+        Aluno a = service.buscar(matricula);
+        return a != null ? ResponseEntity.ok(a) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{matricula}")
-    public ResponseEntity<Aluno> atualizarAluno(@PathVariable Integer matricula, @RequestBody Aluno aluno) {
-        Aluno alunoExistente = alunoService.buscarPorMatricula(matricula);
-        if (alunoExistente != null) {
-            alunoService.atualizar(aluno);
-            return ResponseEntity.ok(aluno);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void atualizar(@PathVariable int matricula, @RequestBody Aluno a) {
+        a.setMatricula(matricula);
+        service.atualizar(a);
     }
 
     @DeleteMapping("/{matricula}")
-    public ResponseEntity<Void> deletarAluno(@PathVariable Integer matricula) {
-        Aluno alunoExistente = alunoService.buscarPorMatricula(matricula);
-        if (alunoExistente != null) {
-            alunoService.deletar(matricula);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void deletar(@PathVariable int matricula) {
+        service.deletar(matricula);
     }
 }
