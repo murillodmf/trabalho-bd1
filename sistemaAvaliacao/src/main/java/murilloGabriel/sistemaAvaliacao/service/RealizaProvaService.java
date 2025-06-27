@@ -2,6 +2,9 @@ package murilloGabriel.sistemaAvaliacao.service;
 
 import murilloGabriel.sistemaAvaliacao.model.RealizaProva;
 import murilloGabriel.sistemaAvaliacao.repository.RealizaProvaRepository;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,12 +24,13 @@ public class RealizaProvaService {
         repo.atualizar(r);
     }
 
-    public void listar() {
-        repo.listar();
+    public List<RealizaProva> listar() {
+        return repo.listar();
     }
 
-    public void deletar(int idProva, int idQuestao, int matricula, Double nota, String comentario) {
-        repo.deletar(idProva, idQuestao, matricula, nota, comentario);
+    public void deletar(int idProva, int idQuestao, int matricula) {
+        repo.deletar(idProva, idQuestao, matricula);
     }
+
 }
 

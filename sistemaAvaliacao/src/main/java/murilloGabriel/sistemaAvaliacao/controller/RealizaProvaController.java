@@ -2,6 +2,9 @@ package murilloGabriel.sistemaAvaliacao.controller;
 
 import murilloGabriel.sistemaAvaliacao.model.RealizaProva;
 import murilloGabriel.sistemaAvaliacao.service.RealizaProvaService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +25,13 @@ public class RealizaProvaController {
     }
 
     @GetMapping
-    public void listar() {
-        service.listar();
+    public List<RealizaProva> listar() {
+        return service.listar();
     }
 
-    @DeleteMapping("/{idProva}/{idQuestao}/{matricula}/{nota}/{comentario}")
-    public void deletar(@PathVariable int idProva, @PathVariable int idQuestao, @PathVariable int matricula, 
-                        @PathVariable Double nota, @PathVariable String comentario) {
-        service.deletar(idProva, idQuestao, matricula, nota, comentario);
+    @DeleteMapping("/{idProva}/{idQuestao}/{matricula}")
+    public void deletar(@PathVariable int idProva, @PathVariable int idQuestao, @PathVariable int matricula) {
+    service.deletar(idProva, idQuestao, matricula);
     }
+    
 }
