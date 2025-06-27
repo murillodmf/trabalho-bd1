@@ -11,52 +11,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/avaliacoes")
 public class AvaliacaoController {
-
     @Autowired
-    private AvaliacaoService avaliacaoService;
+    private AvaliacaoService service;
 
     @PostMapping
-    public ResponseEntity<Avaliacao> criarAvaliacao(@RequestBody Avaliacao avaliacao) {
-        avaliacaoService.salvar(avaliacao);
-        return ResponseEntity.status(201).body(avaliacao);
+    public void salvar(@RequestBody Avaliacao a) {
+        service.salvar(a);
     }
 
     @GetMapping
-    public ResponseEntity<List<Avaliacao>> listarAvaliacoes() {
-        List<Avaliacao> avaliacoes = avaliacaoService.listar();
-        return ResponseEntity.ok(avaliacoes);
+    public List<Avaliacao> listar() {
+        return service.listar();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Avaliacao> buscarPorId(@PathVariable Integer id) {
-        Avaliacao avaliacao = avaliacaoService.buscarPorId(id);
-        if (avaliacao != null) {
-            return ResponseEntity.ok(avaliacao);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Avaliacao> buscar(@PathVariable int id) {
+        Avaliacao a = service.buscar(id);
+        return a != null ? ResponseEntity.ok(a) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Avaliacao> atualizarAvaliacao(@PathVariable Integer id, @RequestBody Avaliacao avaliacao) {
-        Avaliacao existente = avaliacaoService.buscarPorId(id);
-        if (existente != null) {
-            avaliacao.setIdProva(id);
-            avaliacaoService.atualizar(avaliacao);
-            return ResponseEntity.ok(avaliacao);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void atualizar(@PathVariable int id, @RequestBody Avaliacao a) {
+        a.setIdProva(id);
+        service.atualizar(a);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarAvaliacao(@PathVariable Integer id) {
-        Avaliacao existente = avaliacaoService.buscarPorId(id);
-        if (existente != null) {
-            avaliacaoService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public void deletar(@PathVariable int id) {
+        service.deletar(id);
     }
 }
