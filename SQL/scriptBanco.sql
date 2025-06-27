@@ -26,6 +26,7 @@ CREATE TABLE turma (
         ON DELETE SET NULL
 );
 
+
 CREATE TABLE avaliacao (
     id_prova INT,
     data DATE NOT NULL,
