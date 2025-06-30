@@ -3,9 +3,8 @@ package murilloGabriel.sistemaAvaliacao.controller;
 import murilloGabriel.sistemaAvaliacao.model.Aluno;
 import murilloGabriel.sistemaAvaliacao.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity; // 1. Adicione este import
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,8 +20,9 @@ public class AlunoController {
     }
 
     @GetMapping
-    public List<Aluno> listar() {
-        return service.listar();
+    public ResponseEntity<List<Aluno>> listar() {
+        List<Aluno> alunos = service.listar();
+        return ResponseEntity.ok(alunos);
     }
 
     @GetMapping("/{matricula}")

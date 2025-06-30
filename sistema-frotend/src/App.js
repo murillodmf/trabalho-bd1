@@ -3,6 +3,7 @@ import './App.css';
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import ProfessoresPage from './pages/ProfessoresPage';
+import AlunosPage from './pages/AlunosPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/professores" element={<ProfessoresPage />} />
+            <Route path="/alunos" element={<AlunosPage />} />
           </Routes>
         </main>
       </div>
