@@ -1,7 +1,6 @@
-// Localização: src/pages/AlunosPage.js
-
 import React, { useState, useEffect } from 'react';
 import { getAllAlunos } from '../api/alunoService';
+import { Link } from 'react-router-dom';
 
 function AlunosPage() {
     const [alunos, setAlunos] = useState([]);
@@ -35,7 +34,9 @@ function AlunosPage() {
     return (
         <div className="page-container">
             <h1>Gerenciamento de Alunos</h1>
-            <button>Adicionar Novo Aluno</button>
+            <Link to="/alunos/novo">
+                <button>Adicionar Novo Aluno</button>
+            </Link>
 
             <table className="data-table">
                 <thead>

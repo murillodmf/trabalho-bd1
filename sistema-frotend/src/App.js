@@ -4,6 +4,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import ProfessoresPage from './pages/ProfessoresPage';
 import AlunosPage from './pages/AlunosPage';
+import AlunoFormPage from './pages/AlunoFormPage';
 
 function App() {
   return (
@@ -17,9 +18,11 @@ function App() {
         <hr />
 
         <main>
+
           <Routes>
             <Route path="/professores" element={<ProfessoresPage />} />
             <Route path="/alunos" element={<AlunosPage />} />
+            <Route path="/alunos/novo" element={<AlunoFormPage />} />
           </Routes>
         </main>
       </div>
