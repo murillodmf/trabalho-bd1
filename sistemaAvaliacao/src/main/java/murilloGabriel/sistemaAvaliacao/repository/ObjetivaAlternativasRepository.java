@@ -1,18 +1,18 @@
 package murilloGabriel.sistemaAvaliacao.repository;
 
-import murilloGabriel.sistemaAvaliacao.model.ObjetivaResposta;
+import murilloGabriel.sistemaAvaliacao.model.ObjetivaAlternativas;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ObjetivaRespostaRepository {
+public class ObjetivaAlternativasRepository {
     private final JdbcTemplate jdbc;
 
-    public ObjetivaRespostaRepository(JdbcTemplate jdbc) {
+    public ObjetivaAlternativasRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
-    public void salvar(ObjetivaResposta or) {
+    public void salvar(ObjetivaAlternativas or) {
         jdbc.update("INSERT INTO objetiva_resposta (id_questao, alternativa) VALUES (?, ?)",
                 or.getIdQuestao(), or.getAlternativa());
     }

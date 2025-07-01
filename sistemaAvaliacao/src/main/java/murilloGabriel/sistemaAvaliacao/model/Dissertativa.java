@@ -4,7 +4,6 @@ public class Dissertativa {
 
     private Integer idQuestao; 
     private String respostaModelo;
-    private String resposta;
 
     public Integer getIdQuestao() {
         return idQuestao;
@@ -22,11 +21,4 @@ public class Dissertativa {
         this.respostaModelo = respostaModelo;
     }
 
-    public String getResposta() {
-        return resposta;
-    }
-
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
 }

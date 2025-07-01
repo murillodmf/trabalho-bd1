@@ -1,19 +1,19 @@
 package murilloGabriel.sistemaAvaliacao.controller;
 
-import murilloGabriel.sistemaAvaliacao.model.ObjetivaResposta;
-import murilloGabriel.sistemaAvaliacao.service.ObjetivaRespostaService;
+import murilloGabriel.sistemaAvaliacao.model.ObjetivaAlternativas;
+import murilloGabriel.sistemaAvaliacao.service.ObjetivaAlternativasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/objetivas-respostas")
-public class ObjetivaRespostaController {
+@RequestMapping("/objetivas/alternativas")
+public class ObjetivaAlternativasController {
 
     @Autowired
-    private ObjetivaRespostaService service;
+    private ObjetivaAlternativasService service;
 
     @PostMapping
-    public void salvar(@RequestBody ObjetivaResposta or) {
+    public void salvar(@RequestBody ObjetivaAlternativas or) {
         service.salvar(or);
     }
 

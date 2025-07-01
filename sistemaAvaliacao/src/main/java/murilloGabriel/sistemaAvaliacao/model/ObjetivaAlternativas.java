@@ -2,15 +2,15 @@ package murilloGabriel.sistemaAvaliacao.model;
 
 import java.io.Serializable;
 
-public class ObjetivaResposta implements Serializable {
+public class ObjetivaAlternativas implements Serializable {
 
     private Integer idQuestao;
     private String alternativa;
 
-    public ObjetivaResposta() {
+    public ObjetivaAlternativas() {
     }
 
-    public ObjetivaResposta(Integer idQuestao, String alternativa) {
+    public ObjetivaAlternativas(Integer idQuestao, String alternativa) {
         this.idQuestao = idQuestao;
         this.alternativa = alternativa;
     }
@@ -31,13 +31,15 @@ public class ObjetivaResposta implements Serializable {
         this.alternativa = alternativa;
     }
 
-    @Override
+   @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ObjetivaResposta that = (ObjetivaResposta) o;
-        return idQuestao.equals(that.idQuestao) && alternativa.equals(that.alternativa);
+        ObjetivaAlternativas that = (ObjetivaAlternativas) o;
+        return java.util.Objects.equals(idQuestao, that.idQuestao) &&
+            java.util.Objects.equals(alternativa, that.alternativa);
     }
+
 
     @Override
     public int hashCode() {

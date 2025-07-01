@@ -1,19 +1,19 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
-import murilloGabriel.sistemaAvaliacao.model.ObjetivaResposta;
-import murilloGabriel.sistemaAvaliacao.repository.ObjetivaRespostaRepository;
+import murilloGabriel.sistemaAvaliacao.model.ObjetivaAlternativas;
+import murilloGabriel.sistemaAvaliacao.repository.ObjetivaAlternativasRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ObjetivaRespostaService {
+public class ObjetivaAlternativasService {
 
-    private final ObjetivaRespostaRepository repo;
+    private final ObjetivaAlternativasRepository repo;
 
-    public ObjetivaRespostaService(ObjetivaRespostaRepository repo) {
+    public ObjetivaAlternativasService(ObjetivaAlternativasRepository repo) {
         this.repo = repo;
     }
 
-    public void salvar(ObjetivaResposta or) {
+    public void salvar(ObjetivaAlternativas or) {
         repo.salvar(or);
     }
 

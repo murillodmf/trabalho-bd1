@@ -67,7 +67,6 @@ CREATE TABLE objetiva_resposta (
 CREATE TABLE dissertativa (
     id_questao INT PRIMARY KEY,
     respostaModelo TEXT,
-    resposta TEXT,
     CONSTRAINT fk_dissertativa_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
         ON DELETE CASCADE
 );

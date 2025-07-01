@@ -91,16 +91,16 @@ INSERT INTO objetiva_resposta (id_questao, alternativa) VALUES
 (6, 'Terra'), (6, 'Saturno'), (6, 'Júpiter');
 
 -- Dissertativas (últimas 6 questões)
-INSERT INTO dissertativa (id_questao, respostaModelo, resposta)
+INSERT INTO dissertativa (id_questao, respostaModelo)
 SELECT id_questao, respostaModelo, resposta FROM (
     VALUES
-    (7, 'Causas políticas e sociais que levaram à revolução', 'Falta explicar causas econômicas'),
-    (8, 'Processo pelo qual plantas produzem energia', 'Explicação completa'),
-    (9, 'Movimento das placas litosféricas', 'Incompleto'),
-    (10, 'Evaporação, condensação, precipitação e infiltração', 'Resposta correta'),
-    (11, 'Produto Interno Bruto mede a atividade econômica', 'Citou exemplos'),
-    (12, 'Darwin e a seleção natural', 'Muito superficial')
-) AS t(id_questao, respostaModelo, resposta);
+    (7, 'Causas políticas e sociais que levaram à revolução'),
+    (8, 'Processo pelo qual plantas produzem energia'),
+    (9, 'Movimento das placas litosféricas'),
+    (10, 'Evaporação, condensação, precipitação e infiltração'),
+    (11, 'Produto Interno Bruto mede a atividade econômica'),
+    (12, 'Darwin e a seleção natural')
+) AS t(id_questao, respostaModelo);
 
 -- Avaliação contem questão (ligações)
 -- Precisamos pegar os ids de avaliação para associar com as questões

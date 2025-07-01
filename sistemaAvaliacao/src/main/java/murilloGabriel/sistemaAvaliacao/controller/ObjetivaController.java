@@ -27,4 +27,5 @@ public class ObjetivaController {
     public void deletar(@PathVariable int idQuestao) {
         service.deletar(idQuestao);
     }
+    
 }

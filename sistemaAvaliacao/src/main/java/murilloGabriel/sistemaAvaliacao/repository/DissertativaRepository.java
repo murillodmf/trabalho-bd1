@@ -13,16 +13,16 @@ public class DissertativaRepository {
     }
 
     public void salvar(Dissertativa d) {
-        jdbc.update("INSERT INTO dissertativa (idQuestao, respostaModelo) VALUES (?, ?)",
-                d.getIdQuestao(), d.getRespostaModelo());
-    }
+        jdbc.update("INSERT INTO dissertativa (id_questao, respostaModelo) VALUES (?, ?)",
+            d.getIdQuestao(), d.getRespostaModelo());
+    }   
 
     public void atualizar(Dissertativa d) {
-        jdbc.update("UPDATE dissertativa SET respostaModelo = ? WHERE idQuestao = ?",
-                d.getRespostaModelo(), d.getIdQuestao());
+        jdbc.update("UPDATE dissertativa SET respostaModelo = ? WHERE id_questao = ?",
+            d.getRespostaModelo(), d.getIdQuestao());
     }
 
     public void deletar(int idQuestao) {
-        jdbc.update("DELETE FROM dissertativa WHERE idQuestao = ?", idQuestao);
+        jdbc.update("DELETE FROM dissertativa WHERE id_questao = ?", idQuestao);
     }
 }
