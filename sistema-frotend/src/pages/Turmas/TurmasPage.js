@@ -44,7 +44,7 @@ const TurmasPage = () => {
             <th>Código</th>
             <th>Matéria</th>
             <th>Quantidade de Alunos</th>
-            <th>Registro do Professor</th>
+            <th>Registro Professor</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -53,8 +53,8 @@ const TurmasPage = () => {
             <tr key={turma.cod}>
               <td>{turma.cod}</td>
               <td>{turma.materia}</td>
-              <td>{turma.quantidadealunos}</td>
-              <td>{turma.registro}</td>
+              <td>{turma.quantidadeAlunos}</td>
+              <td>{turma.registroProfessor || 'Não atribuído'}</td>
               <td>
                 <button onClick={() => setTurmaEditando(turma)}>Editar</button>
                 <button onClick={() => handleDelete(turma.cod)}>Excluir</button>

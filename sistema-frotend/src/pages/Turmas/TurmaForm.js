@@ -5,8 +5,8 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
   const [formData, setFormData] = useState(turma || {
     cod: '',
     materia: '',
-    quantidadealunos: 0,
-    registro: ''
+    quantidadeAlunos: 0,
+    registroProfessor: ''
   });
 
   const handleSubmit = async (e) => {
@@ -23,6 +23,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
     <form onSubmit={handleSubmit}>
       <input
         name="cod"
+        type="number"
         value={formData.cod}
         onChange={(e) => setFormData({...formData, cod: e.target.value})}
         placeholder="Código da Turma"
@@ -37,19 +38,19 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
         required
       />
       <input
-        name="quantidadealunos"
+        name="quantidadeAlunos"
         type="number"
-        value={formData.quantidadealunos}
-        onChange={(e) => setFormData({...formData, quantidadealunos: parseInt(e.target.value) || 0})}
+        value={formData.quantidadeAlunos}
+        onChange={(e) => setFormData({...formData, quantidadeAlunos: e.target.value})}
         placeholder="Quantidade de Alunos"
         required
       />
       <input
-        name="registro"
-        value={formData.registro}
-        onChange={(e) => setFormData({...formData, registro: e.target.value})}
+        name="registroProfessor"
+        type="number"
+        value={formData.registroProfessor}
+        onChange={(e) => setFormData({...formData, registroProfessor: e.target.value})}
         placeholder="Registro do Professor"
-        required
       />
       <button type="submit">Salvar</button>
       {turma && <button type="button" onClick={onCancel}>Cancelar</button>}
