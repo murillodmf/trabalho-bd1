@@ -38,19 +38,19 @@ const AlunoTurmaForm = ({ onSave, turmas, alunos }) => {
       <div style={{ marginBottom: '10px' }}>
         <label htmlFor="turma">Turma: </label>
         <select
-          id="turma"
-          name="codTurma"
-          value={formData.codTurma}
-          onChange={(e) => setFormData({...formData, codTurma: e.target.value})}
-          required
-        >
-          <option value="">Selecione uma turma</option>
-          {turmas.map(turma => (
-            <option key={turma.codigo} value={turma.codigo}>
-              {turma.disciplina} ({turma.codigo})
-            </option>
-          ))}
-        </select>
+        id="turma"
+        name="codTurma"
+        value={formData.codTurma}
+        onChange={(e) => setFormData({...formData, codTurma: e.target.value})}
+        required
+      >
+        <option value="">Selecione uma turma</option>
+        {turmas.map(turma => (
+          <option key={turma.cod} value={turma.cod}>
+            {turma.disciplina} ({turma.cod})
+          </option>
+        ))}
+      </select>
       </div>
       
       <button type="submit">Matricular</button>
