@@ -26,20 +26,18 @@ public class AlunoTurmaRepository {
     }
 
     public List<AlunoTurmaDTO> listar() {
-    return jdbc.query("SELECT at.*, a.pnome as aluno_pnome, a.snome as aluno_snome, t.disciplina as turma_disciplina " +
+       return jdbc.query(
+            "SELECT at.*, a.pnome as aluno_pnome, a.snome as aluno_snome, t.materia as turma_materia " +
             "FROM aluno_turma at " +
             "JOIN aluno a ON at.matricula = a.matricula " +
-            "JOIN turma t ON at.cod_turma = t.codigo",
-        (rs, rowNum) -> new AlunoTurmaDTO(
-            rs.getInt("matricula"),
-            rs.getString("aluno_pnome") + " " + rs.getString("aluno_snome"),
-            rs.getInt("cod_turma"),
-            rs.getString("turma_disciplina")
-        )
-    );
-}
-
-   
-
+            "JOIN turma t ON at.cod_turma = t.cod",
+            (rs, rowNum) -> new AlunoTurmaDTO(
+                rs.getInt("matricula"),
+                rs.getString("aluno_pnome") + " " + rs.getString("aluno_snome"),
+                rs.getInt("cod_turma"),
+                rs.getString("turma_materia")
+            )
+        );      
+    }
 }
 

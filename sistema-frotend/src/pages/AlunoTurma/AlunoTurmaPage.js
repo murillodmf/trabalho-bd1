@@ -17,27 +17,29 @@ const AlunoTurmaPage = () => {
   }, []);
 
   const carregarDados = async () => {
-    try {
-      const [alunoTurmasRes, turmasRes, alunosRes] = await Promise.all([
-        getAlunoTurmas().catch(() => ({ data: [] })),
-        getTurmas().catch(() => ({ data: [] })),
-        getAlunos().catch(() => ({ data: [] }))
-      ]);
+  try {
+    const [alunoTurmasRes, turmasRes, alunosRes] = await Promise.all([
+      getAlunoTurmas().catch(() => ({ data: [] })),
+      getTurmas().catch(() => ({ data: [] })),
+      getAlunos().catch(() => ({ data: [] }))
+    ]);
 
-      setAlunoTurmas(alunoTurmasRes.data || []);
-      setTurmas(turmasRes.data || []);
-      setAlunos(alunosRes.data || []);
+    console.log("AlunoTurmas API Response:", alunoTurmasRes.data);
 
-      // Monta o mapa para acesso rápido por matrícula
-      const map = {};
-      (alunosRes.data || []).forEach(aluno => {
-        map[aluno.matricula] = aluno;
-      });
-      setAlunosMap(map);
-    } catch (error) {
-      console.error("Erro ao carregar dados:", error);
-    }
-  };
+    setAlunoTurmas(alunoTurmasRes.data || []);
+    setTurmas(turmasRes.data || []);
+    setAlunos(alunosRes.data || []);
+
+    const map = {};
+    (alunosRes.data || []).forEach(aluno => {
+      map[aluno.matricula] = aluno;
+    });
+    setAlunosMap(map);
+  } catch (error) {
+    console.error("Erro ao carregar dados:", error);
+  }
+};
+
 
   const handleDelete = async (matricula, codTurma) => {
     await deleteAlunoTurma(matricula, codTurma);
@@ -50,17 +52,14 @@ const AlunoTurmaPage = () => {
   };
 
   const getAlunosNaTurma = (codTurma) => {
-    return alunoTurmas
-      .filter(at => at.turma.cod === codTurma)
-      .map(at => {
-        const aluno = alunosMap[at.aluno.matricula];
-        return aluno ? {
-          ...aluno,
-          nomeCompleto: `${aluno.pnome} ${aluno.snome}`
-        } : null;
-      })
-      .filter(Boolean);
-  };
+  return alunoTurmas
+    .filter(at => at.codTurma === codTurma)
+    .map(at => ({
+      matricula: at.matricula,
+      nomeCompleto: at.nomeAluno
+    }));
+};
+
 
   return (
     <div style={{ padding: '20px' }}>
@@ -174,7 +173,7 @@ const AlunoTurmaPage = () => {
                     {getAlunosNaTurma(selectedTurma.cod).map(aluno => (
                       <tr key={aluno.matricula} style={{ borderBottom: '1px solid #eee' }}>
                         <td style={{ padding: '12px 15px' }}>{aluno.matricula}</td>
-                        <td style={{ padding: '12px 15px' }}>{aluno.pnome} {aluno.snome}</td>
+                        <td style={{ padding: '12px 15px' }}>{aluno.nomeCompleto}</td>
                         <td style={{ padding: '12px 15px' }}>
                           <button
                             onClick={() => {
