@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Hook para redirecionar o usuário
-import { createAluno } from '../api/alunoService'; // Nossa função de API
+import React, {useEffect, useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createAluno, getAlunoById, updateAluno} from '../api/alunoService';
 
 function AlunoFormPage() {
     const navigate = useNavigate(); // Inicializa o hook de navegação
+    const { matricula } = useParams(); // Pega o parâmetro 'matricula' da URL. Se não houver, será undefined.
+    const isEditing = Boolean(matricula);
 
     // Cria um estado para guardar os dados do formulário
     const [aluno, setAluno] = useState({
@@ -14,6 +16,20 @@ function AlunoFormPage() {
         idade: ''
     });
 
+    // useEffect para buscar os dados do aluno se estivermos em modo de edição
+    useEffect(() => {
+        if (isEditing) {
+            getAlunoById(matricula)
+                .then(response => {
+                    setAluno(response.data); // Preenche o formulário com os dados do aluno
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar aluno:', error);
+                    alert('Não foi possível carregar os dados do aluno para edição.');
+                });
+        }
+    }, [matricula, isEditing]); // Executa quando a matrícula ou o modo de edição mudam
+
     // Função para atualizar o estado quando o usuário digita em um campo
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -23,28 +39,32 @@ function AlunoFormPage() {
         }));
     };
 
-    // Função para lidar com o envio do formulário
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Previne o recarregamento padrão da página
+        event.preventDefault();
         try {
-            // Chama a função para criar o aluno no backend
-            await createAluno(aluno);
-            alert('Aluno salvo com sucesso!');
-            // Redireciona o usuário de volta para a lista de alunos após o sucesso
-            navigate('/alunos');
+            if (isEditing) {
+                // Se estiver editando, chama a função de ATUALIZAR
+                await updateAluno(matricula, aluno);
+                alert('Aluno atualizado com sucesso!');
+            } else {
+                // Se não, chama a função de CRIAR
+                await createAluno(aluno);
+                alert('Aluno salvo com sucesso!');
+            }
+            navigate('/alunos'); // Redireciona para a lista
         } catch (error) {
             console.error('Erro ao salvar o aluno:', error);
-            alert('Falha ao salvar o aluno. Verifique o console para mais detalhes.');
+            alert('Falha ao salvar o aluno.');
         }
     };
 
     return (
         <div className="form-container">
-            <h1>Cadastrar Novo Aluno</h1>
+            <h1>{isEditing ? 'Editar Aluno' : 'Cadastrar Novo Aluno'}</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Matrícula:</label>
-                    <input type="number" name="matricula" value={aluno.matricula} onChange={handleChange} required />
+                    <input type="number" name="matricula" value={aluno.matricula} onChange={handleChange} required disabled={isEditing} />
                 </div>
                 <div className="form-group">
                     <label>CPF:</label>

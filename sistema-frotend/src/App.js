@@ -22,6 +22,7 @@ function App() {
             <Route path="/professores" element={<ProfessoresPage />} />
             <Route path="/alunos" element={<AlunosPage />} />
             <Route path="/alunos/novo" element={<AlunoFormPage />} />
+            <Route path="/alunos/editar/:matricula" element={<AlunoFormPage />} />
           </Routes>
         </main>
       </div>

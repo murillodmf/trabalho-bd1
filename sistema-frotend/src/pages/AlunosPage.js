@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllAlunos } from '../api/alunoService';
+import { getAllAlunos, deleteAluno } from '../api/alunoService';
 import { Link } from 'react-router-dom';
 
 function AlunosPage() {
@@ -31,6 +31,29 @@ function AlunosPage() {
         return <p style={{ color: 'red' }}>{error}</p>;
     }
 
+    const handleDelete = async (matricula) => {
+        // Pede a confirmação do usuário
+        const isConfirmed = window.confirm('Tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita.');
+
+        // Se o usuário não confirmar, a função para por aqui
+        if (!isConfirmed) {
+            return;
+        }
+
+        // Se o usuário confirmar, tenta deletar
+        try {
+            await deleteAluno(matricula); // Chama a função da API
+
+            // ATUALIZA A TELA: Filtra a lista de alunos, removendo o que foi deletado
+            setAlunos(alunos.filter(aluno => aluno.matricula !== matricula));
+
+            alert('Aluno excluído com sucesso!');
+        } catch (err) {
+            setError('Falha ao excluir o aluno. Tente novamente.');
+            console.error(err);
+        }
+    };
+
     return (
         <div className="page-container">
             <h1>Gerenciamento de Alunos</h1>
@@ -53,13 +76,14 @@ function AlunosPage() {
                     alunos.map(aluno => (
                         <tr key={aluno.matricula}>
                             <td>{aluno.matricula}</td>
-                            {/* Ajustado para usar pnome e snome, como no seu modelo */}
                             <td>{`${aluno.pnome} ${aluno.snome || ''}`}</td>
                             <td>{aluno.cpf}</td>
                             <td>{aluno.idade}</td>
                             <td>
-                                <button>Editar</button>
-                                <button>Excluir</button>
+                                <Link to={`/alunos/editar/${aluno.matricula}`}>
+                                    <button>Editar</button>
+                                </Link>
+                                <button onClick={() => handleDelete(aluno.matricula)} className="delete-button">Excluir</button>
                             </td>
                         </tr>
                     ))
