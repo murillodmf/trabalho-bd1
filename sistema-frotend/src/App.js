@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
-// Importando todas as páginas
 import HomePage from './pages/Home/HomePage';
 import AlunosPage from './pages/Alunos/AlunosPage';
 import ProfessoresPage from './pages/Professores/ProfessoresPage';
