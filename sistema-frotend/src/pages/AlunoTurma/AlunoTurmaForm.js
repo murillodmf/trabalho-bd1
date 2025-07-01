@@ -47,7 +47,7 @@ const AlunoTurmaForm = ({ onSave, turmas, alunos }) => {
         <option value="">Selecione uma turma</option>
         {turmas.map(turma => (
           <option key={turma.cod} value={turma.cod}>
-            {turma.disciplina} ({turma.cod})
+            {turma.materia} ({turma.cod})
           </option>
         ))}
       </select>

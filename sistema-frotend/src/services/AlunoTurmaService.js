@@ -10,6 +10,6 @@ export const createAlunoTurma = async (alunoTurma) => {
   return await axios.post(API_URL, alunoTurma);
 };
 
-export const deleteAlunoTurma = async (matricula, codTurma) => {
-  return await axios.delete(`${API_URL}/${matricula}/${codTurma}`);
+export const deleteAlunoTurma = async (matricula, cod) => {
+  return await axios.delete(`${API_URL}/${matricula}/${cod}`);
 };

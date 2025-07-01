@@ -1,8 +1,10 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
+import murilloGabriel.sistemaAvaliacao.dto.AlunoTurmaDTO;
 import murilloGabriel.sistemaAvaliacao.model.AlunoTurma;
 import murilloGabriel.sistemaAvaliacao.repository.AlunoTurmaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -23,7 +25,9 @@ public class AlunoTurmaService {
         repo.deletar(matricula, codTurma);
     }
 
-    public List<AlunoTurma> listar() {
-        return repo.listar();
-    }
+    @GetMapping
+    public List<AlunoTurmaDTO> listar() {
+    return repo.listar();
+}
+
 }

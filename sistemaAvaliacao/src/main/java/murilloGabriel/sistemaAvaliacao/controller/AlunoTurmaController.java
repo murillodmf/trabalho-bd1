@@ -1,5 +1,6 @@
 package murilloGabriel.sistemaAvaliacao.controller;
 
+import murilloGabriel.sistemaAvaliacao.dto.AlunoTurmaDTO;
 import murilloGabriel.sistemaAvaliacao.model.AlunoTurma;
 import murilloGabriel.sistemaAvaliacao.service.AlunoTurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,10 @@ public class AlunoTurmaController {
     }
 
     @GetMapping
-    public List<AlunoTurma> listar() {
+    public List<AlunoTurmaDTO> listar() {
         return service.listar();
     }
+
 
     @DeleteMapping("/{matricula}/{codTurma}")
     public void deletar(@PathVariable int matricula, @PathVariable int codTurma) {

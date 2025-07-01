@@ -8,6 +8,7 @@ const AlunoTurmaPage = () => {
   const [alunoTurmas, setAlunoTurmas] = useState([]);
   const [turmas, setTurmas] = useState([]);
   const [alunos, setAlunos] = useState([]);
+  const [alunosMap, setAlunosMap] = useState({});
   const [selectedTurma, setSelectedTurma] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -22,10 +23,17 @@ const AlunoTurmaPage = () => {
         getTurmas().catch(() => ({ data: [] })),
         getAlunos().catch(() => ({ data: [] }))
       ]);
-      
+
       setAlunoTurmas(alunoTurmasRes.data || []);
       setTurmas(turmasRes.data || []);
       setAlunos(alunosRes.data || []);
+
+      // Monta o mapa para acesso rápido por matrícula
+      const map = {};
+      (alunosRes.data || []).forEach(aluno => {
+        map[aluno.matricula] = aluno;
+      });
+      setAlunosMap(map);
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
     }
@@ -45,7 +53,7 @@ const AlunoTurmaPage = () => {
     return alunoTurmas
       .filter(at => at.turma.cod === codTurma)
       .map(at => {
-        const aluno = alunos.find(a => a.matricula === at.aluno.matricula);
+        const aluno = alunosMap[at.aluno.matricula];
         return aluno ? {
           ...aluno,
           nomeCompleto: `${aluno.pnome} ${aluno.snome}`
@@ -57,45 +65,39 @@ const AlunoTurmaPage = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h1 style={{ marginBottom: '20px' }}>Alunos em Turmas</h1>
-      
-      <AlunoTurmaForm 
-        onSave={carregarDados} 
-        turmas={turmas} 
-        alunos={alunos} 
+
+      <AlunoTurmaForm
+        onSave={carregarDados}
+        turmas={turmas}
+        alunos={alunos}
       />
-      
+
       <h2 style={{ margin: '20px 0 10px 0' }}>Lista de Turmas</h2>
-      
+
       {turmas.length === 0 ? (
         <p>Nenhuma turma cadastrada</p>
       ) : (
-        <div style={{ 
-          display: 'grid', 
+        <div style={{
+          display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
           gap: '15px',
           marginTop: '15px'
         }}>
           {turmas.map((turma) => (
-            <div 
+            <div
               key={turma.cod}
               style={{
                 border: '1px solid #ddd',
                 borderRadius: '8px',
                 padding: '15px',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                ':hover': {
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                  transform: 'translateY(-2px)'
-                }
+                transition: 'all 0.3s ease'
               }}
               onClick={() => handleTurmaClick(turma)}
             >
-              <h3 style={{ marginTop: '0', color: '#333' }}>{turma.disciplina}</h3>
+              <h3 style={{ marginTop: 0, color: '#333' }}>{turma.materia}</h3>
               <p><strong>Código:</strong> {turma.cod}</p>
-              <p>
-                <strong>Alunos matriculados:</strong> {alunoTurmas.filter(at => at.turma.cod === turma.cod).length}
-              </p>
+              <p><strong>Alunos matriculados:</strong> {turma.quantidadeAlunos}</p>
             </div>
           ))}
         </div>
@@ -105,10 +107,7 @@ const AlunoTurmaPage = () => {
       {showModal && selectedTurma && (
         <div style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          top: 0, left: 0, right: 0, bottom: 0,
           backgroundColor: 'rgba(0,0,0,0.5)',
           display: 'flex',
           justifyContent: 'center',
@@ -133,36 +132,36 @@ const AlunoTurmaPage = () => {
               backgroundColor: '#f8f9fa'
             }}>
               <h2 style={{ margin: 0 }}>
-                Alunos na Turma: {selectedTurma.disciplina} ({selectedTurma.cod})
+                Alunos na Turma: {selectedTurma.materia} ({selectedTurma.cod})
               </h2>
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 style={{
                   background: 'none',
                   border: 'none',
                   fontSize: '1.5rem',
                   cursor: 'pointer',
-                  color: '#666',
-                  ':hover': {
-                    color: '#333'
-                  }
+                  color: '#666'
                 }}
+                aria-label="Fechar modal"
               >
                 &times;
               </button>
             </div>
-            
+
             <div style={{ padding: '20px', overflowY: 'auto', maxHeight: 'calc(80vh - 60px)' }}>
               {getAlunosNaTurma(selectedTurma.cod).length === 0 ? (
-                <p style={{ textAlign: 'center', color: '#666' }}>Nenhum aluno matriculado nesta turma</p>
+                <p style={{ textAlign: 'center', color: '#666' }}>
+                  Nenhum aluno matriculado nesta turma
+                </p>
               ) : (
-                <table style={{ 
+                <table style={{
                   width: '100%',
                   borderCollapse: 'collapse',
                   marginTop: '10px'
                 }}>
                   <thead>
-                    <tr style={{ 
+                    <tr style={{
                       backgroundColor: '#f1f1f1',
                       textAlign: 'left'
                     }}>
@@ -173,12 +172,7 @@ const AlunoTurmaPage = () => {
                   </thead>
                   <tbody>
                     {getAlunosNaTurma(selectedTurma.cod).map(aluno => (
-                      <tr key={aluno.matricula} style={{
-                        borderBottom: '1px solid #eee',
-                        ':hover': {
-                          backgroundColor: '#f9f9f9'
-                        }
-                      }}>
+                      <tr key={aluno.matricula} style={{ borderBottom: '1px solid #eee' }}>
                         <td style={{ padding: '12px 15px' }}>{aluno.matricula}</td>
                         <td style={{ padding: '12px 15px' }}>{aluno.pnome} {aluno.snome}</td>
                         <td style={{ padding: '12px 15px' }}>
@@ -194,10 +188,7 @@ const AlunoTurmaPage = () => {
                               border: 'none',
                               borderRadius: '4px',
                               cursor: 'pointer',
-                              transition: 'background-color 0.2s',
-                              ':hover': {
-                                backgroundColor: '#cc0000'
-                              }
+                              transition: 'background-color 0.2s'
                             }}
                           >
                             Remover

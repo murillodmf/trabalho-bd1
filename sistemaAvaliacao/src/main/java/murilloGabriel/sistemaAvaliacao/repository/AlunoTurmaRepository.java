@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import murilloGabriel.sistemaAvaliacao.model.Aluno;
+import murilloGabriel.sistemaAvaliacao.dto.AlunoTurmaDTO;
 import murilloGabriel.sistemaAvaliacao.model.AlunoTurma;
-import murilloGabriel.sistemaAvaliacao.model.Turma;
 
 @Repository
 public class AlunoTurmaRepository {
@@ -26,24 +25,21 @@ public class AlunoTurmaRepository {
         jdbc.update("DELETE FROM aluno_turma WHERE matricula = ? AND cod_turma = ?", matricula, codTurma);
     }
 
-
-   public List<AlunoTurma> listar() {
+    public List<AlunoTurmaDTO> listar() {
     return jdbc.query("SELECT at.*, a.pnome as aluno_pnome, a.snome as aluno_snome, t.disciplina as turma_disciplina " +
             "FROM aluno_turma at " +
             "JOIN aluno a ON at.matricula = a.matricula " +
             "JOIN turma t ON at.cod_turma = t.codigo",
-            (rs, rowNum) -> {
-                Aluno aluno = new Aluno();
-                aluno.setMatricula(rs.getInt("matricula"));
-                aluno.setPnome(rs.getString("aluno_pnome"));
-                aluno.setSnome(rs.getString("aluno_snome"));
-                
-                Turma turma = new Turma();
-                turma.setCod(rs.getInt("cod_turma"));
-                turma.setMateria(rs.getString("turma_disciplina"));
-                
-                return new AlunoTurma(aluno, turma);
-            });
+        (rs, rowNum) -> new AlunoTurmaDTO(
+            rs.getInt("matricula"),
+            rs.getString("aluno_pnome") + " " + rs.getString("aluno_snome"),
+            rs.getInt("cod_turma"),
+            rs.getString("turma_disciplina")
+        )
+    );
 }
+
+   
+
 }
 
