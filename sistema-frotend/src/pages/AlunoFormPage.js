@@ -27,7 +27,7 @@ function AlunoFormPage() {
     const handleSubmit = async (event) => {
         event.preventDefault(); // Previne o recarregamento padrão da página
         try {
-            // Chama a função do nosso serviço para criar o aluno no backend
+            // Chama a função para criar o aluno no backend
             await createAluno(aluno);
             alert('Aluno salvo com sucesso!');
             // Redireciona o usuário de volta para a lista de alunos após o sucesso
