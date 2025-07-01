@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/alunoTurma';
+const API_URL = 'http://localhost:8080/alunos-turmas';
 
 export const getAlunoTurmas = async () => {
   return await axios.get(API_URL);
