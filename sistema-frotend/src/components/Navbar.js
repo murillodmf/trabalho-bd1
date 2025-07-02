@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Arquivo de estilos opcional
+import './Navbar.css';
 
 const Navbar = () => {
   return (
@@ -15,8 +15,6 @@ const Navbar = () => {
         <Link to="/questoes">Questões</Link>
         <Link to="/avaliacoes">Avaliações</Link>
         <Link to="/aluno-turma">Matriculas</Link>
-        <Link to="/realiza-prova">Provas Realizadas</Link>
-        <Link to="/avaliacao-questoes">Avaliação-Questão</Link>
       </div>
     </nav>
   );

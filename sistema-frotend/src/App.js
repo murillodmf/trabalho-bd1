@@ -7,10 +7,12 @@ import AlunosPage from './pages/Alunos/AlunosPage';
 import ProfessoresPage from './pages/Professores/ProfessoresPage';
 import TurmasPage from './pages/Turmas/TurmasPage';
 import QuestoesPage from './pages/Questoes/QuestoesPage';
-import AvaliacoesPage from './pages/Avaliacoes/AvaliacoesPage';
+
+import AvaliacoesHomePage from './pages/Avaliacoes/AvaliacoesHomePage';
+import CriarAvaliacaoPage from './pages/Avaliacoes/CriarAvaliacaoPage';
+import HistoricoAvaliacoesPage from './pages/Avaliacoes/HistoricoAvaliacoesPage';
+
 import AlunoTurmaPage from './pages/AlunoTurma/AlunoTurmaPage';
-import RealizaProvaPage from './pages/RealizaProva/RealizaProvaPage';
-import AvaliacaoContemQuestaoPage from './pages/AvaliacaoContemQuestao/AvaliacaoContemQuestaoPage';
 
 function App() {
   return (
@@ -19,21 +21,15 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            {/* Rota Home */}
             <Route path="/" element={<HomePage />} />
-
-            {/* Rotas Principais */}
             <Route path="/alunos" element={<AlunosPage />} />
             <Route path="/professores" element={<ProfessoresPage />} />
             <Route path="/turmas" element={<TurmasPage />} />
             <Route path="/questoes" element={<QuestoesPage />} />
-            <Route path="/avaliacoes" element={<AvaliacoesPage />} />
-
-            {/* Rotas de Relacionamento */}
+            <Route path="/avaliacoes" element={<AvaliacoesHomePage />} />
+            <Route path="/avaliacoes/criar" element={<CriarAvaliacaoPage />} />
+            <Route path="/avaliacoes/historico" element={<HistoricoAvaliacoesPage />} />
             <Route path="/aluno-turma" element={<AlunoTurmaPage />} />
-            <Route path="/realiza-prova" element={<RealizaProvaPage />} />
-            <Route path="/avaliacao-questoes" element={<AvaliacaoContemQuestaoPage />} />
-
           </Routes>
         </div>
       </div>

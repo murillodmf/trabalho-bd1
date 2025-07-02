@@ -1,23 +1,23 @@
-import axios from 'axios';
+import api from '../api/api';
 
-const API_URL = 'http://localhost:8080/avaliacoes';
+const API_URL_AVALIACOES = '/avaliacoes';
 
 export const getAvaliacoes = async () => {
-  return await axios.get(API_URL);
+  return await api.get(API_URL_AVALIACOES);
 };
 
 export const getAvaliacao = async (id) => {
-  return await axios.get(`${API_URL}/${id}`);
+  return await api.get(`${API_URL_AVALIACOES}/${id}`);
 };
 
-export const createAvaliacao = async (avaliacao) => {
-  return await axios.post(API_URL, avaliacao);
+export const createAvaliacao = async (avaliacaoDTO) => {
+  return await api.post(API_URL_AVALIACOES, avaliacaoDTO);
 };
 
-export const updateAvaliacao = async (id, avaliacao) => {
-  return await axios.put(`${API_URL}/${id}`, avaliacao);
+export const updateAvaliacao = async (id, avaliacaoDTO) => {
+  return await api.put(`${API_URL_AVALIACOES}/${id}`, avaliacaoDTO);
 };
 
 export const deleteAvaliacao = async (id) => {
-  return await axios.delete(`${API_URL}/${id}`);
+  return await api.delete(`${API_URL_AVALIACOES}/${id}`);
 };
