@@ -3,70 +3,70 @@ import { getProfessores, deleteProfessor } from '../../services/ProfessorService
 import ProfessorForm from './ProfessorForm';
 
 const ProfessoresPage = () => {
-  const [professores, setProfessores] = useState([]);
-  const [professorEditando, setProfessorEditando] = useState(null);
+    const [professores, setProfessores] = useState([]);
+    const [professorEditando, setProfessorEditando] = useState(null);
 
-  useEffect(() => {
-    carregarProfessores();
-  }, []);
+    // A lógica de carregar e deletar permanece a mesma
+    useEffect(() => {
+        carregarProfessores();
+    }, []);
 
-  const carregarProfessores = async () => {
-    try {
-      const response = await getProfessores();
-      setProfessores(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar professores:", error);
-    }
-  };
+    const carregarProfessores = async () => {
+        try {
+            const response = await getProfessores();
+            setProfessores(response.data);
+        } catch (error) {
+            console.error("Erro ao carregar professores:", error);
+        }
+    };
 
-  const handleDelete = async (registro) => {
-    if (window.confirm('Tem certeza que deseja excluir este professor?')) {
-      await deleteProfessor(registro);
-      carregarProfessores();
-    }
-  };
+    const handleDelete = async (registro) => {
+        if (window.confirm('Tem certeza que deseja excluir este professor?')) {
+            await deleteProfessor(registro);
+            carregarProfessores();
+        }
+    };
 
-  return (
-    <div className="container">
-      <h1>Professores</h1>
-      <ProfessorForm 
-        professor={professorEditando} 
-        onSave={() => {
-          setProfessorEditando(null);
-          carregarProfessores();
-        }} 
-        onCancel={() => setProfessorEditando(null)}
-      />
+    return (
+        <div className="questoes-page-container">
+            <h1>Gerenciamento de Professores</h1>
 
-      <table className="professores-table">
-        <thead>
-          <tr>
-            <th>Registro</th>
-            <th>Nome</th>
-            <th>Sobrenome</th>
-            <th>CPF</th>
-            <th>Idade</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {professores.map((professor) => (
-            <tr key={professor.registro}>
-              <td>{professor.registro}</td>
-              <td>{professor.pnome}</td>
-              <td>{professor.snome}</td>
-              <td>{professor.cpf}</td>
-              <td>{professor.idade}</td>
-              <td>
-                <button onClick={() => setProfessorEditando(professor)}>Editar</button>
-                <button onClick={() => handleDelete(professor.registro)}>Excluir</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+            <div className="form-section">
+                <ProfessorForm
+                    professor={professorEditando}
+                    onSave={() => {
+                        setProfessorEditando(null);
+                        carregarProfessores();
+                    }}
+                    onCancel={() => setProfessorEditando(null)}
+                />
+            </div>
+
+            <div className="list-section">
+                <h2>Lista de Professores</h2>
+                <div className="questoes-grid">
+                    {professores.map((professor) => (
+                        <div key={professor.registro} className="questao-card">
+                            {/* A CORREÇÃO ESTÁ AQUI */}
+                            <h3>{`${professor.pnome} ${professor.snome || ''}`}</h3>
+                            <p>
+                                <strong>Registro:</strong> {professor.registro} <br />
+                                <strong>CPF:</strong> {professor.cpf}
+                            </p>
+                            <div className="card-actions">
+                                <button onClick={() => setProfessorEditando(professor)} className="edit-btn">
+                                    Editar
+                                </button>
+                                <button onClick={() => handleDelete(professor.registro)} className="delete-btn">
+                                    Excluir
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default ProfessoresPage;
