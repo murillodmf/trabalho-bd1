@@ -6,7 +6,6 @@ const ProfessoresPage = () => {
     const [professores, setProfessores] = useState([]);
     const [professorEditando, setProfessorEditando] = useState(null);
 
-    // A lógica de carregar e deletar permanece a mesma
     useEffect(() => {
         carregarProfessores();
     }, []);
@@ -47,7 +46,6 @@ const ProfessoresPage = () => {
                 <div className="questoes-grid">
                     {professores.map((professor) => (
                         <div key={professor.registro} className="questao-card">
-                            {/* A CORREÇÃO ESTÁ AQUI */}
                             <h3>{`${professor.pnome} ${professor.snome || ''}`}</h3>
                             <p>
                                 <strong>Registro:</strong> {professor.registro} <br />

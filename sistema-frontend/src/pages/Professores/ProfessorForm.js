@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createProfessor, updateProfessor } from '../../services/ProfessorService';
 
 const ProfessorForm = ({ professor, onSave, onCancel }) => {
-    // CORREÇÃO: O estado interno agora usa os mesmos nomes do backend (pnome, snome)
     const [formData, setFormData] = useState({
         registro: '',
         pnome: '',
@@ -11,18 +10,16 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
         idade: ''
     });
 
-    // CORREÇÃO: O useEffect agora preenche 'pnome' e 'snome' corretamente
     useEffect(() => {
         if (professor) {
             setFormData({
                 registro: professor.registro || '',
-                pnome: professor.pnome || '', // Usando a propriedade correta
-                snome: professor.snome || '', // Usando a propriedade correta
+                pnome: professor.pnome || '',
+                snome: professor.snome || '',
                 cpf: professor.cpf || '',
                 idade: professor.idade || ''
             });
         } else {
-            // Limpa o formulário quando o modo de edição é cancelado
             setFormData({ registro: '', pnome: '', snome: '', cpf: '', idade: '' });
         }
     }, [professor]);
@@ -60,7 +57,6 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
 
             <div className="form-group">
                 <label htmlFor="pnome">Primeiro Nome:</label>
-                {/* CORREÇÃO: O 'name' e 'value' agora correspondem ao estado (pnome) */}
                 <input
                     id="pnome"
                     name="pnome"
@@ -73,7 +69,6 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
 
             <div className="form-group">
                 <label htmlFor="snome">Sobrenome:</label>
-                {/* CORREÇÃO: O 'name' e 'value' agora correspondem ao estado (snome) */}
                 <input
                     id="snome"
                     name="snome"
