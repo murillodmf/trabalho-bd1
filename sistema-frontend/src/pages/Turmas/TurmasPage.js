@@ -5,6 +5,8 @@ import TurmaForm from './TurmaForm';
 const TurmasPage = () => {
   const [turmas, setTurmas] = useState([]);
   const [turmaEditando, setTurmaEditando] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     carregarTurmas();
@@ -12,10 +14,14 @@ const TurmasPage = () => {
 
   const carregarTurmas = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const response = await getTurmas();
       setTurmas(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar turmas:", error);
+    } catch (err) {
+      setError("Erro ao carregar turmas.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -27,43 +33,50 @@ const TurmasPage = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Turmas</h1>
-      <TurmaForm 
-        turma={turmaEditando} 
-        onSave={() => {
-          setTurmaEditando(null);
-          carregarTurmas();
-        }} 
-        onCancel={() => setTurmaEditando(null)}
-      />
+      <div className="questoes-page-container">
+        <h1>Gerenciamento de Turmas</h1>
+        {error && <div className="error-message">{error}</div>}
 
-      <table className="turmas-table">
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Matéria</th>
-            <th>Quantidade de Alunos</th>
-            <th>Registro Professor</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {turmas.map((turma) => (
-            <tr key={turma.cod}>
-              <td>{turma.cod}</td>
-              <td>{turma.materia}</td>
-              <td>{turma.quantidadeAlunos}</td>
-              <td>{turma.registroProfessor || 'Não atribuído'}</td>
-              <td>
-                <button onClick={() => setTurmaEditando(turma)}>Editar</button>
-                <button onClick={() => handleDelete(turma.cod)}>Excluir</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        <div className="form-section">
+          <TurmaForm
+              turma={turmaEditando}
+              onSave={() => {
+                setTurmaEditando(null);
+                carregarTurmas();
+              }}
+              onCancel={() => setTurmaEditando(null)}
+          />
+        </div>
+
+        <div className="list-section">
+          <h2>Lista de Turmas</h2>
+          {loading ? (
+              <p>Carregando...</p>
+          ) : (
+              <div className="questoes-grid">
+                {turmas.map((turma) => (
+                    <div key={turma.cod} className="questao-card">
+                      <h3>{turma.materia}</h3>
+                      <p>
+                        <strong>Código:</strong> {turma.cod} <br />
+                        <strong>Alunos:</strong> {turma.quantidadeAlunos} <br />
+                        {/* AQUI ESTÁ A MUDANÇA: Exibindo o ID do professor */}
+                        <strong>Registro Professor:</strong> {turma.registroProfessor || 'Não atribuído'}
+                      </p>
+                      <div className="card-actions">
+                        <button onClick={() => setTurmaEditando(turma)} className="edit-btn">
+                          Editar
+                        </button>
+                        <button onClick={() => handleDelete(turma.cod)} className="delete-btn">
+                          Excluir
+                        </button>
+                      </div>
+                    </div>
+                ))}
+              </div>
+          )}
+        </div>
+      </div>
   );
 };
 
