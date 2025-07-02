@@ -1,11 +1,13 @@
 package murilloGabriel.sistemaAvaliacao.service;
 
+import murilloGabriel.sistemaAvaliacao.dto.RealizacaoQuestaoDTO;
 import murilloGabriel.sistemaAvaliacao.model.RealizaProva;
 import murilloGabriel.sistemaAvaliacao.repository.RealizaProvaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class RealizaProvaService {
@@ -20,6 +22,7 @@ public class RealizaProvaService {
         repo.salvar(r);
     }
 
+    @Transactional
     public void atualizar(RealizaProva r) {
         repo.atualizar(r);
     }
@@ -32,5 +35,13 @@ public class RealizaProvaService {
         repo.deletar(idProva, idQuestao, matricula);
     }
 
-}
+    public List<RealizacaoQuestaoDTO> listarRealizacoesPorAvaliacao(int idProva) {
+        return repo.listarRealizacoesPorProva(idProva);
+    }
 
+    public Optional<RealizacaoQuestaoDTO> buscarRealizacaoDetalhada(int idProva, int idQuestao, int matricula) {
+        return repo.listarRealizacoesPorProva(idProva).stream()
+                .filter(r -> r.getIdQuestao().equals(idQuestao) && r.getMatriculaAluno().equals(matricula))
+                .findFirst();
+    }
+}
