@@ -1,5 +1,3 @@
--- Criação das tabelas com constraints e sequências automáticas
-
 CREATE TABLE professor (
     registro SERIAL PRIMARY KEY,
     p_nome VARCHAR(50) NOT NULL,
@@ -36,7 +34,8 @@ CREATE TABLE avaliacao (
 
 CREATE TABLE questao (
     id_questao SERIAL PRIMARY KEY,
-    enunciado TEXT NOT NULL
+    enunciado TEXT NOT NULL,
+    tipo VARCHAR(20) NOT NULL DEFAULT 'OBJETIVA'
 );
 
 CREATE TABLE avaliacao_contem_questao (

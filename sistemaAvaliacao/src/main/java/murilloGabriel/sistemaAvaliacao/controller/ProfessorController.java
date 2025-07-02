@@ -21,7 +21,7 @@ public class ProfessorController {
     @GetMapping
     public ResponseEntity<List<Professor>> listar() {
         List<Professor> professores = service.listar();
-        return ResponseEntity.ok(professores); // A mudança para garantir um JSON válido
+        return ResponseEntity.ok(professores);
     }
 
     @GetMapping("/{registro}")

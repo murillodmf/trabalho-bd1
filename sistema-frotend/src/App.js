@@ -10,9 +10,6 @@ import QuestoesPage from './pages/Questoes/QuestoesPage';
 import AvaliacoesPage from './pages/Avaliacoes/AvaliacoesPage';
 import AlunoTurmaPage from './pages/AlunoTurma/AlunoTurmaPage';
 import RealizaProvaPage from './pages/RealizaProva/RealizaProvaPage';
-import DissertativasPage from './pages/Dissertativas/DissertativasPage';
-import ObjetivasPage from './pages/Objetivas/ObjetivasPage';
-import ObjetivaRespostasPage from './pages/ObjetivaRespostas/ObjetivaRespostasPage';
 import AvaliacaoContemQuestaoPage from './pages/AvaliacaoContemQuestao/AvaliacaoContemQuestaoPage';
 
 function App() {
@@ -37,10 +34,6 @@ function App() {
             <Route path="/realiza-prova" element={<RealizaProvaPage />} />
             <Route path="/avaliacao-questoes" element={<AvaliacaoContemQuestaoPage />} />
 
-            {/* Rotas de Tipos de Questões */}
-            <Route path="/dissertativas" element={<DissertativasPage />} />
-            <Route path="/objetivas" element={<ObjetivasPage />} />
-            <Route path="/objetiva-respostas" element={<ObjetivaRespostasPage />} />
           </Routes>
         </div>
       </div>

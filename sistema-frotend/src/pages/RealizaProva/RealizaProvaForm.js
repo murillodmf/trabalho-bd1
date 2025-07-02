@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createRealizacao } from '../../services/RealizaProvaService'; // Import corrigido
+import { createRealizacao } from '../../services/RealizaProvaService';
 
 const RealizaProvaForm = ({ onSave }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const RealizaProvaForm = ({ onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createRealizacao(formData); // Usando createRealizacao em vez de salvar
+    await createRealizacao(formData);
     onSave();
     setFormData({
       idProva: '',

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import api from '../../api/api';
 
-const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
+
+const QuestaoForm = ({ questao, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     enunciado: '',
     tipo: 'OBJETIVA',
@@ -10,21 +12,49 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
   });
 
   useEffect(() => {
-    if (questaoParaEditar) {
-      setFormData({
-        idQuestao: questaoParaEditar.idQuestao,
-        enunciado: questaoParaEditar.enunciado,
-        tipo: questaoParaEditar.tipo,
-        respostaCorreta: questaoParaEditar.respostaCorreta || '',
-        respostaModelo: questaoParaEditar.respostaModelo || '',
-        alternativas: questaoParaEditar.alternativas && questaoParaEditar.alternativas.length > 0
-          ? questaoParaEditar.alternativas
-          : ['']
-      });
+    if (questao) {
+      carregarDadosQuestao(questao);
     } else {
       resetForm();
     }
-  }, [questaoParaEditar]);
+  }, [questao]);
+
+  const carregarDadosQuestao = async (questao) => {
+    const dadosBase = {
+      enunciado: questao.enunciado,
+      tipo: questao.tipo
+    };
+
+    if (questao.tipo === 'OBJETIVA') {
+      try {
+        const [respostaRes, alternativasRes] = await Promise.all([
+          api.get(`/objetivas/${questao.idQuestao}`),
+          api.get(`/objetivas/alternativas/${questao.idQuestao}`)
+        ]);
+
+        setFormData({
+          ...dadosBase,
+          respostaCorreta: respostaRes.data.resposta,
+          respostaModelo: '',
+          alternativas: alternativasRes.data.map(a => a.alternativa)
+        });
+      } catch (error) {
+        console.error('Erro ao carregar dados da questão objetiva:', error);
+      }
+    } else {
+      try {
+        const respostaRes = await api.get(`/dissertativas/${questao.idQuestao}`);
+        setFormData({
+          ...dadosBase,
+          respostaCorreta: '',
+          respostaModelo: respostaRes.data.respostaModelo,
+          alternativas: ['']
+        });
+      } catch (error) {
+        console.error('Erro ao carregar dados da questão dissertativa:', error);
+      }
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -58,26 +88,16 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dataToSend = { ...formData };
-    if (dataToSend.tipo === 'OBJETIVA') {
-      delete dataToSend.respostaModelo;
-      dataToSend.alternativas = dataToSend.alternativas.filter(alt => alt.trim() !== '');
-    } else {
-      delete dataToSend.respostaCorreta;
-      delete dataToSend.alternativas;
-    }
-    onSave(dataToSend);
+    onSave(formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="questao-form">
-      <h3>{questaoParaEditar ? 'Editar Questão' : 'Nova Questão'}</h3>
       <div className="form-group">
-        <label htmlFor="tipo">Tipo:</label>
-        <select
-          id="tipo"
-          name="tipo"
-          value={formData.tipo}
+        <label>Tipo:</label>
+        <select 
+          name="tipo" 
+          value={formData.tipo} 
           onChange={handleInputChange}
           required
         >
@@ -85,34 +105,30 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
           <option value="DISSERTATIVA">Dissertativa</option>
         </select>
       </div>
-
+      
       <div className="form-group">
-        <label htmlFor="enunciado">Enunciado:</label>
+        <label>Enunciado:</label>
         <textarea
-          id="enunciado"
           name="enunciado"
           value={formData.enunciado}
           onChange={handleInputChange}
-          placeholder="Digite o enunciado da questão..."
           required
         />
       </div>
-
+      
       {formData.tipo === 'OBJETIVA' ? (
         <>
           <div className="form-group">
-            <label htmlFor="respostaCorreta">Resposta Correta:</label>
+            <label>Resposta Correta:</label>
             <input
               type="text"
-              id="respostaCorreta"
               name="respostaCorreta"
               value={formData.respostaCorreta}
               onChange={handleInputChange}
-              placeholder="Digite a resposta correta..."
               required
             />
           </div>
-
+          
           <div className="form-group">
             <label>Alternativas:</label>
             {formData.alternativas.map((alt, index) => (
@@ -121,43 +137,38 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
                   type="text"
                   value={alt}
                   onChange={(e) => handleAlternativaChange(index, e.target.value)}
-                  placeholder={`Alternativa ${index + 1}`}
                   required
                 />
-                {formData.alternativas.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeAlternativa(index)}
-                    className="remove-btn"
-                  >
-                    Remover
-                  </button>
-                )}
+                <button 
+                  type="button" 
+                  onClick={() => removeAlternativa(index)}
+                  disabled={formData.alternativas.length <= 1}
+                >
+                  Remover
+                </button>
               </div>
             ))}
-            <button type="button" onClick={addAlternativa} className="add-btn">
+            <button type="button" onClick={addAlternativa}>
               Adicionar Alternativa
             </button>
           </div>
         </>
       ) : (
         <div className="form-group">
-          <label htmlFor="respostaModelo">Resposta Modelo:</label>
+          <label>Resposta Modelo:</label>
           <textarea
-            id="respostaModelo"
             name="respostaModelo"
             value={formData.respostaModelo}
             onChange={handleInputChange}
-            placeholder="Digite a resposta modelo para a questão dissertativa..."
           />
         </div>
       )}
-
+      
       <div className="form-actions">
         <button type="submit" className="btn-save">
-          {questaoParaEditar ? 'Atualizar Questão' : 'Criar Questão'}
+          {questao ? 'Atualizar' : 'Salvar'}
         </button>
-        {questaoParaEditar && (
+        {questao && (
           <button type="button" onClick={onCancel} className="btn-cancel">
             Cancelar
           </button>

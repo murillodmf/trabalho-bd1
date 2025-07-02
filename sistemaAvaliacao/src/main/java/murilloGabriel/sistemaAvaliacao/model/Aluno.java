@@ -47,8 +47,5 @@ public class Aluno {
         this.idade = idade;
     }
 
-    public void setNome(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setNome'");
-    }
+    
 }

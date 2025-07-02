@@ -9,7 +9,7 @@ const AvaliacaoContemQuestaoPage = () => {
   });
 
   const carregarRelacoes = async () => {
-    // Implemente essa função se tiver um endpoint para listar
+   
   };
 
   const handleSubmit = async (e) => {

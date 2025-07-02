@@ -22,14 +22,6 @@ const Navbar = () => {
             <Link to="/avaliacao-questoes">Avaliação-Questão</Link>
           </div>
         </div>
-        <div className="dropdown">
-          <button className="dropbtn">Tipos de Questões</button>
-          <div className="dropdown-content">
-            <Link to="/dissertativas">Dissertativas</Link>
-            <Link to="/objetivas">Objetivas</Link>
-            <Link to="/objetiva-respostas">Respostas Objetivas</Link>
-          </div>
-        </div>
       </div>
     </nav>
   );

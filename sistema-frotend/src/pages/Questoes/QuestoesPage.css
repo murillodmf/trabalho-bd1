@@ -1,0 +1,253 @@
+.questoes-page-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.form-section {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.questao-form h3 {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #007bff;
+  font-size: 1.5rem;
+}
+
+.questao-form .form-group {
+  margin-bottom: 15px;
+}
+
+.questao-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.questao-form input[type="text"],
+.questao-form textarea,
+.questao-form select {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.questao-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.questao-form .alternativa-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.questao-form .alternativa-item input {
+  flex-grow: 1;
+  margin-right: 0;
+}
+
+.questao-form .remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.questao-form .remove-btn:hover {
+  background-color: #c82333;
+}
+
+.questao-form .add-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.questao-form .add-btn:hover {
+  background-color: #0056b3;
+}
+
+.questao-form .form-actions {
+  text-align: right;
+  margin-top: 25px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.questao-form .btn-save {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.questao-form .btn-save:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.questao-form .btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-left: 15px;
+}
+
+.questao-form .btn-cancel:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.list-section {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.list-section h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.questoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.questao-card {
+  background-color: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+}
+
+.questao-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.questao-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #007bff;
+  font-size: 1.3rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.questao-card p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.questao-card .card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.questao-card .edit-btn,
+.questao-card .delete-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.questao-card .edit-btn {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.questao-card .edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.questao-card .delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.questao-card .delete-btn:hover {
+  background-color: #c82333;
+}
+
+.error-message {
+  background-color: #ffe0e0;
+  color: #d8000c;
+  padding: 12px 20px;
+  border: 1px solid #d8000c;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+}

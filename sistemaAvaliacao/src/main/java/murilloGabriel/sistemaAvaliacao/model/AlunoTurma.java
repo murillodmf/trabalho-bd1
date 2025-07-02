@@ -16,10 +16,6 @@ public class AlunoTurma implements Serializable {
         this.codTurma = codTurma;
     }
 
-    public AlunoTurma(Aluno aluno, Turma turma) {
-        //TODO Auto-generated constructor stub
-    }
-
 
     public Integer getMatricula() {
         return matricula;

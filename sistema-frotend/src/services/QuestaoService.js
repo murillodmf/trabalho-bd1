@@ -1,23 +1,24 @@
-import axios from 'axios';
+import api from '../api/api';
 
-const API_URL = 'http://localhost:8080/questoes';
+const API_URL_QUESTOES = '/questoes';
+const API_URL_QUESTOES_COMPLETA = '/questoes/completa';
 
 export const getQuestoes = async () => {
-  return await axios.get(API_URL);
+  return await api.get(API_URL_QUESTOES);
 };
 
-export const getQuestao = async (id) => {
-  return await axios.get(`${API_URL}/${id}`);
+export const getQuestaoCompleta = async (id) => {
+  return await api.get(`${API_URL_QUESTOES_COMPLETA}/${id}`);
 };
 
-export const createQuestao = async (questao) => {
-  return await axios.post(API_URL, questao);
+export const createQuestaoCompleta = async (questao) => {
+  return await api.post(API_URL_QUESTOES_COMPLETA, questao);
 };
 
-export const updateQuestao = async (id, questao) => {
-  return await axios.put(`${API_URL}/${id}`, questao);
+export const updateQuestaoCompleta = async (id, questao) => {
+  return await api.put(`${API_URL_QUESTOES_COMPLETA}/${id}`, questao);
 };
 
 export const deleteQuestao = async (id) => {
-  return await axios.delete(`${API_URL}/${id}`);
+  return await api.delete(`${API_URL_QUESTOES}/${id}`);
 };

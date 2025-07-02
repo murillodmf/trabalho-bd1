@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class QuestaoRepository {
@@ -22,6 +23,7 @@ public class QuestaoRepository {
         Questao q = new Questao();
         q.setIdQuestao(rs.getInt("id_questao"));
         q.setEnunciado(rs.getString("enunciado"));
+        q.setTipo(rs.getString("tipo"));
         return q;
     };
 
@@ -30,10 +32,11 @@ public class QuestaoRepository {
 
         jdbc.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                "INSERT INTO questao (enunciado) VALUES (?)",
+                "INSERT INTO questao (enunciado, tipo) VALUES (?, ?)", 
                 new String[] { "id_questao" }
             );
             ps.setString(1, q.getEnunciado());
+            ps.setString(2, q.getTipo());
             return ps;
         }, keyHolder);
 
@@ -47,14 +50,14 @@ public class QuestaoRepository {
         return jdbc.query("SELECT * FROM questao", mapper);
     }
 
-    public Questao buscar(int id) {
+    public Optional<Questao> buscar(int id) {
         List<Questao> l = jdbc.query("SELECT * FROM questao WHERE id_questao = ?", mapper, id);
-        return l.isEmpty() ? null : l.get(0);
+        return l.isEmpty() ? Optional.empty() : Optional.of(l.get(0));
     }
 
     public void atualizar(Questao q) {
-        jdbc.update("UPDATE questao SET enunciado = ? WHERE id_questao = ?",
-                q.getEnunciado(), q.getIdQuestao());
+        jdbc.update("UPDATE questao SET enunciado = ?, tipo = ? WHERE id_questao = ?",
+                q.getEnunciado(), q.getTipo(), q.getIdQuestao());
     }
 
     public void deletar(int id) {

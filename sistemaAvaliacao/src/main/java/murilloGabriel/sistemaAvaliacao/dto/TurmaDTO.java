@@ -5,11 +5,9 @@ public class TurmaDTO {
     private String materia;
     private Integer quantidadeAlunos;
 
-    // Informações do Professor
     private Integer registroProfessor;
     private String nomeProfessor;
 
-    // Getters e Setters
     public Integer getCod() { return cod; }
     public void setCod(Integer cod) { this.cod = cod; }
     public String getMateria() { return materia; }
