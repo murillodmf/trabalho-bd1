@@ -92,7 +92,7 @@ INSERT INTO objetiva_resposta (id_questao, alternativa) VALUES
 
 -- Dissertativas (últimas 6 questões)
 INSERT INTO dissertativa (id_questao, respostaModelo)
-SELECT id_questao, respostaModelo, resposta FROM (
+SELECT id_questao, respostaModelo FROM (
     VALUES
     (7, 'Causas políticas e sociais que levaram à revolução'),
     (8, 'Processo pelo qual plantas produzem energia'),
