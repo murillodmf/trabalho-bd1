@@ -4,7 +4,9 @@ import murilloGabriel.sistemaAvaliacao.model.Turma;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TurmaRepository {
@@ -32,9 +34,9 @@ public class TurmaRepository {
         return jdbc.query("SELECT * FROM turma", mapper);
     }
 
-    public Turma buscar(int cod) {
+    public Optional<Turma> buscar(int cod) {
         List<Turma> l = jdbc.query("SELECT * FROM turma WHERE cod = ?", mapper, cod);
-        return l.isEmpty() ? null : l.get(0);
+        return l.isEmpty() ? Optional.empty() : Optional.of(l.get(0));
     }
 
     public void atualizar(Turma t) {

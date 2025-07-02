@@ -23,7 +23,7 @@ public class TurmaService {
     }
 
     public Turma buscar(int cod) {
-        return repo.buscar(cod);
+        return repo.buscar(cod).orElse(null);
     }
 
     public void atualizar(Turma turma) {
