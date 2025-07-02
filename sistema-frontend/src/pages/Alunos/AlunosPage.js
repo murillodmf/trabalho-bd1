@@ -9,7 +9,6 @@ const AlunosPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Lógica de carregar e deletar permanece a mesma
     useEffect(() => {
         carregarAlunos();
     }, []);
@@ -36,12 +35,10 @@ const AlunosPage = () => {
     };
 
     return (
-        // Aplicando o container principal do seu novo CSS
         <div className="questoes-page-container">
             <h1>Gerenciamento de Alunos</h1>
             {error && <div className="error-message">{error}</div>}
 
-            {/* Seção do Formulário */}
             <div className="form-section">
                 <AlunoForm
                     aluno={alunoEditando}
@@ -53,7 +50,6 @@ const AlunosPage = () => {
                 />
             </div>
 
-            {/* Seção da Lista, agora com Cards */}
             <div className="list-section">
                 <h2>Lista de Alunos</h2>
                 {loading ? (
@@ -62,13 +58,11 @@ const AlunosPage = () => {
                     <div className="questoes-grid">
                         {alunos.map((aluno) => (
                             <div key={aluno.matricula} className="questao-card">
-                                {/* Conteúdo do Card */}
                                 <h3>{`${aluno.pnome} ${aluno.snome || ''}`}</h3>
                                 <p>
                                     <strong>Matrícula:</strong> {aluno.matricula} <br />
                                     <strong>CPF:</strong> {aluno.cpf}
                                 </p>
-                                {/* Ações do Card */}
                                 <div className="card-actions">
                                     <button onClick={() => setAlunoEditando(aluno)} className="edit-btn">
                                         Editar

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createAluno, updateAluno } from '../../services/AlunoService';
 
 const AlunoForm = ({ aluno, onSave, onCancel }) => {
-    // A lógica de estado e submit permanece a mesma
     const [formData, setFormData] = useState({
         matricula: '', cpf: '', pnome: '', snome: '', idade: ''
     });
@@ -30,7 +29,6 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
     };
 
     return (
-        // Aplicando as classes do seu novo CSS
         <form onSubmit={handleSubmit} className="questao-form">
             <h3>{aluno ? 'Editar Aluno' : 'Adicionar Novo Aluno'}</h3>
 
