@@ -30,7 +30,6 @@ public class ObjetivaAlternativasRepository {
         jdbc.update("DELETE FROM objetiva_resposta WHERE id_questao = ?", idQuestao);
     }
 
-    // O MÉTODO QUE ESTAVA FALTANDO
     public List<String> buscarAlternativasPorIdQuestao(int idQuestao) {
         return jdbc.query("SELECT alternativa FROM objetiva_resposta WHERE id_questao = ?", alternativaMapper, idQuestao);
     }
