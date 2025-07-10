@@ -17,7 +17,7 @@ public class AlunoController {
     @PostMapping
     public void salvar(@RequestBody Aluno a) {
         service.salvar(a);
-    }
+    } 
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listar() {
