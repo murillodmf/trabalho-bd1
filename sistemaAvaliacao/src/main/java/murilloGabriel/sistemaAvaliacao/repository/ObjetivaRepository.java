@@ -19,17 +19,20 @@ public class ObjetivaRepository {
     private final RowMapper<Objetiva> mapper = (rs, rowNum) -> {
         Objetiva o = new Objetiva();
         o.setIdQuestao(rs.getInt("id_questao"));
-        o.setRespostaCorreta(rs.getString("resposta"));
+        // CORREÇÃO: Mapeando da coluna 'respostaCorreta'
+        o.setRespostaCorreta(rs.getString("respostaCorreta"));
         return o;
     };
 
     public void salvar(Objetiva o) {
-        jdbc.update("INSERT INTO objetiva (id_questao, resposta) VALUES (?, ?)",
+        // CORREÇÃO: Inserindo na coluna 'respostaCorreta'
+        jdbc.update("INSERT INTO objetiva (id_questao, respostaCorreta) VALUES (?, ?)",
                 o.getIdQuestao(), o.getRespostaCorreta());
     }
 
     public void atualizar(Objetiva o) {
-        jdbc.update("UPDATE objetiva SET resposta = ? WHERE id_questao = ?",
+        // CORREÇÃO: Atualizando a coluna 'respostaCorreta'
+        jdbc.update("UPDATE objetiva SET respostaCorreta = ? WHERE id_questao = ?",
                 o.getRespostaCorreta(), o.getIdQuestao());
     }
 
