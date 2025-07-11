@@ -35,7 +35,7 @@ CREATE TABLE avaliacao (
 CREATE TABLE questao (
     id_questao SERIAL PRIMARY KEY,
     enunciado TEXT NOT NULL,
-    tipo VARCHAR(20) NOT NULL DEFAULT 'OBJETIVA'
+    tipo VARCHAR(20) NOT NULL DEFAULT 'OBJETIVA' CHECK (tipo IN ('OBJETIVA', 'DISSERTATIVA'))
 );
 
 CREATE TABLE avaliacao_contem_questao (
@@ -50,7 +50,7 @@ CREATE TABLE avaliacao_contem_questao (
 
 CREATE TABLE objetiva (
     id_questao INT PRIMARY KEY,
-    resposta VARCHAR(255) NOT NULL,
+    respostaCorreta VARCHAR(255) NOT NULL,
     CONSTRAINT fk_objetiva_questao FOREIGN KEY (id_questao) REFERENCES questao(id_questao)
         ON DELETE CASCADE
 );
@@ -105,19 +105,18 @@ CREATE OR REPLACE FUNCTION atualiza_quantidade_alunos()
 RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'DELETE') THEN
-        UPDATE turma 
+        UPDATE turma
         SET quantidadeAlunos = (SELECT COUNT(*) FROM aluno_turma WHERE cod_turma = OLD.cod_turma)
         WHERE cod = OLD.cod_turma;
     ELSIF (TG_OP = 'INSERT') THEN
-        UPDATE turma 
+        UPDATE turma
         SET quantidadeAlunos = (SELECT COUNT(*) FROM aluno_turma WHERE cod_turma = NEW.cod_turma)
         WHERE cod = NEW.cod_turma;
     ELSIF (TG_OP = 'UPDATE' AND OLD.cod_turma <> NEW.cod_turma) THEN
-        UPDATE turma 
+        UPDATE turma
         SET quantidadeAlunos = (SELECT COUNT(*) FROM aluno_turma WHERE cod_turma = OLD.cod_turma)
         WHERE cod = OLD.cod_turma;
-        
-        UPDATE turma 
+        UPDATE turma
         SET quantidadeAlunos = (SELECT COUNT(*) FROM aluno_turma WHERE cod_turma = NEW.cod_turma)
         WHERE cod = NEW.cod_turma;
     END IF;
