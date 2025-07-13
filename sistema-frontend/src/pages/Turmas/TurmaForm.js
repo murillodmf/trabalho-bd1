@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'; // 1. Importamos o useEffect
+import React, { useState, useEffect } from 'react';
 import { createTurma, updateTurma } from '../../services/TurmaService';
-import { getProfessores } from '../../services/ProfessorService'; // 2. Importamos a função para buscar professores
+import { getProfessores } from '../../services/ProfessorService';
 
 const TurmaForm = ({ turma, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
         cod: '',
         materia: '',
         quantidadeAlunos: 0,
-        registroProfessor: '' // O valor inicial pode ser vazio
+        registroProfessor: ''
     });
 
     const [professores, setProfessores] = useState([]);
@@ -16,7 +16,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
         const carregarProfessores = async () => {
             try {
                 const response = await getProfessores();
-                setProfessores(response.data); // Guarda a lista no nosso estado
+                setProfessores(response.data);
             } catch (error) {
                 console.error("Erro ao carregar lista de professores:", error);
             }
@@ -85,7 +85,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
                     <option value="">Selecione um professor...</option>
                     {professores.map(prof => (
                         <option key={prof.registro} value={prof.registro}>
-                            {`${prof.pnome} ${prof.snome || ''}`} (Registro: {prof.registro})
+                            {${prof.pnome} ${prof.snome || ''}} (Registro: {prof.registro})
                         </option>
                     ))}
                 </select>

@@ -29,6 +29,7 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
     };
 
     return (
+
         <form onSubmit={handleSubmit} className="questao-form">
             <h3>{aluno ? 'Editar Aluno' : 'Adicionar Novo Aluno'}</h3>
 
