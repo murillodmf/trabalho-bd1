@@ -13,6 +13,7 @@ import CriarAvaliacaoPage from './pages/Avaliacoes/CriarAvaliacaoPage';
 import HistoricoAvaliacoesPage from './pages/Avaliacoes/HistoricoAvaliacoesPage';
 
 import AlunoTurmaPage from './pages/AlunoTurma/AlunoTurmaPage';
+import RelatoriosPage from './pages/Relatorios/RelatoriosPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/avaliacoes/criar" element={<CriarAvaliacaoPage />} />
             <Route path="/avaliacoes/historico" element={<HistoricoAvaliacoesPage />} />
             <Route path="/aluno-turma" element={<AlunoTurmaPage />} />
+            <Route path="/relatorios" element={<RelatoriosPage />} />
           </Routes>
         </div>
       </div>
