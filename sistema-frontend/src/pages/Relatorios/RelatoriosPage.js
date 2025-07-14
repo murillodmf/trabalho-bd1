@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
 import { getAlunos } from '../../services/AlunoService';
 import { getTurmas } from '../../services/TurmaService';
 import { getQuestoes } from '../../services/QuestaoService';
 import {
     getMediaGeralPorTurma,
     getAcertosPorQuestao,
-    getRankingAlunosPorTurma,
-    getEvolucaoComparativa,
+    getRankingAlunosPorTurma,     
+    getEvolucaoComparativa,      
 } from '../../services/RelatorioService';
 
 import MediaPorTurmaChart from '../../components/charts/MediaPorTurmaChart';
@@ -18,10 +19,10 @@ import './RelatoriosPage.css';
 const RelatoriosPage = () => {
     const [mediaGeralData, setMediaGeralData] = useState([]);
     const [acertosQuestaoData, setAcertosQuestaoData] = useState(null);
-    const [rankingData, setRankingData] = useState([]);
+    const [rankingData, setRankingData] = useState([]);                     
     const [evolucaoComparativaData, setEvolucaoComparativaData] = useState([]);
 
-
+    
     const [alunos, setAlunos] = useState([]);
     const [turmas, setTurmas] = useState([]);
     const [questoes, setQuestoes] = useState([]);
@@ -65,14 +66,14 @@ const RelatoriosPage = () => {
             setMediaGeralData(response.data);
         }
     };
-
+    
     const handleFetchAcertosQuestao = async () => {
         if (selectedQuestaoId) {
             const response = await getAcertosPorQuestao(selectedQuestaoId);
             setAcertosQuestaoData(response.data);
         }
     };
-
+    
     const handleFetchRanking = async () => {
         if (selectedTurmaRanking) {
             const response = await getRankingAlunosPorTurma(selectedTurmaRanking);
@@ -122,7 +123,7 @@ const RelatoriosPage = () => {
                     <button onClick={handleFetchMediaGeral} disabled={!selectedMateriaMediaGeral}>Gerar Gráfico Comparativo</button>
                 </div>
 
-                <div className="filter-block">
+                 <div className="filter-block">
                     <h4>Ranking de Alunos por Turma</h4>
                     <div className="filter-group-single">
                         <select value={selectedTurmaRanking} onChange={(e) => setSelectedTurmaRanking(e.target.value)}>
@@ -153,7 +154,7 @@ const RelatoriosPage = () => {
                     <MediaPorTurmaChart data={mediaGeralData} titulo={`Média Geral Comparativa em ${selectedMateriaMediaGeral}`} />
                 </div>
                 <div className="chart-card section-card">
-                    <RankingAlunosTable data={rankingData} turmaNome={turmas.find(t=>t.cod==selectedTurmaRanking)?.materia} />
+                   <RankingAlunosTable data={rankingData} turmaNome={turmas.find(t=>t.cod==selectedTurmaRanking)?.materia} />
                 </div>
                 <div className="chart-card section-card">
                     <AcertosPorQuestaoChart data={acertosQuestaoData} />
