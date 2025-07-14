@@ -62,7 +62,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
                 <label htmlFor="cod">Código da Turma:</label>
                 <input id="cod" name="cod" type="number" value={formData.cod} onChange={handleChange} required disabled={!!turma} />
             </div>
-„”„
+
             <div className="form-group">
                 <label htmlFor="materia">Matéria:</label>
                 <input id="materia" name="materia" value={formData.materia} onChange={handleChange} placeholder="Nome da Matéria" required />
@@ -85,8 +85,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
                     <option value="">Selecione um professor...</option>
                     {professores.map(prof => (
                         <option key={prof.registro} value={prof.registro}>
-                            {${prof.pnome} ${prof.snome || ''}}
-                            <video src="v  "></video> (Registro: {prof.registro})
+                            {`${prof.pnome} ${prof.snome || ''}`} (Registro: {prof.registro})
                         </option>
                     ))}
                 </select>
