@@ -15,6 +15,8 @@ import HistoricoAvaliacoesPage from './pages/Avaliacoes/HistoricoAvaliacoesPage'
 import AlunoTurmaPage from './pages/AlunoTurma/AlunoTurmaPage';
 import RelatoriosPage from './pages/Relatorios/RelatoriosPage';
 
+import './global.css';
+
 function App() {
   return (
     <Router>

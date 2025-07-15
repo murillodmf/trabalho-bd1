@@ -39,7 +39,7 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="questao-form">
+        <form onSubmit={handleSubmit}>
             <h3>{professor ? 'Editar Professor' : 'Adicionar Novo Professor'}</h3>
 
             <div className="form-group">
@@ -60,6 +60,7 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
                 <input
                     id="pnome"
                     name="pnome"
+                    type="text"
                     value={formData.pnome}
                     onChange={handleChange}
                     placeholder="Primeiro Nome"
@@ -72,6 +73,7 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
                 <input
                     id="snome"
                     name="snome"
+                    type="text"
                     value={formData.snome}
                     onChange={handleChange}
                     placeholder="Sobrenome"
@@ -83,6 +85,7 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
                 <input
                     id="cpf"
                     name="cpf"
+                    type="text"
                     value={formData.cpf}
                     onChange={handleChange}
                     placeholder="CPF"
@@ -103,8 +106,8 @@ const ProfessorForm = ({ professor, onSave, onCancel }) => {
             </div>
 
             <div className="form-actions">
-                <button type="submit" className="btn-save">{professor ? 'Atualizar' : 'Salvar'}</button>
-                {professor && <button type="button" onClick={onCancel} className="btn-cancel">Cancelar</button>}
+                <button type="submit" className="btn btn-primary">{professor ? 'Atualizar' : 'Salvar'}</button>
+                {professor && <button type="button" onClick={onCancel} className="btn btn-secondary">Cancelar</button>}
             </div>
         </form>
     );
