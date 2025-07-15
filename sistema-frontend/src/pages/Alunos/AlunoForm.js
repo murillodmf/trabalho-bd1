@@ -29,7 +29,7 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="questao-form">
+        <form onSubmit={handleSubmit}>
             <h3>{aluno ? 'Editar Aluno' : 'Adicionar Novo Aluno'}</h3>
 
             <div className="form-group">
@@ -50,6 +50,7 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
                 <input
                     id="cpf"
                     name="cpf"
+                    type="text"
                     value={formData.cpf}
                     onChange={handleChange}
                     required
@@ -61,6 +62,7 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
                 <input
                     id="pnome"
                     name="pnome"
+                    type="text"
                     value={formData.pnome}
                     onChange={handleChange}
                     required
@@ -72,6 +74,7 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
                 <input
                     id="snome"
                     name="snome"
+                    type="text"
                     value={formData.snome}
                     onChange={handleChange}
                 />
@@ -89,8 +92,8 @@ const AlunoForm = ({ aluno, onSave, onCancel }) => {
             </div>
 
             <div className="form-actions">
-                <button type="submit" className="btn-save">Salvar</button>
-                {aluno && <button type="button" onClick={onCancel} className="btn-cancel">Cancelar</button>}
+                <button type="submit" className="btn btn-primary">Salvar</button>
+                {aluno && <button type="button" onClick={onCancel} className="btn btn-secondary">Cancelar</button>}
             </div>
         </form>
     );
