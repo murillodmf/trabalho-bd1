@@ -54,30 +54,31 @@ public class RelatorioRepository {
 
         String sqlContagem = """
             SELECT
-                COUNT(rp.matricula) FILTER (WHERE q.tipo = 'OBJETIVA' AND rp.nota > 0) as acertos,
-                COUNT(rp.matricula) FILTER (WHERE q.tipo = 'OBJETIVA' AND rp.nota = 0) as erros,
-                COUNT(DISTINCT rp.matricula) as total_respostas
+                -- Conta o número de alunos únicos que acertaram a questão pelo menos uma vez
+                COUNT(DISTINCT CASE WHEN rp.nota > 0 THEN rp.matricula ELSE NULL END) as total_acertos_unicos,
+                -- Conta o número total de alunos únicos que responderam a questão
+                COUNT(DISTINCT rp.matricula) as total_respostas_unicas
             FROM realizaProva rp
-            JOIN questao q ON rp.id_questao = q.id_questao
             WHERE rp.id_questao = ?
         """;
 
-        return jdbc.queryForObject(sqlContagem, (rs, rowNum) -> new AcertosQuestaoDTO(
-                idQuestao,
-                enunciado,
-                rs.getLong("total_respostas"),
-                rs.getLong("acertos"),
-                rs.getLong("erros")
-        ), idQuestao);
+        return jdbc.queryForObject(sqlContagem, (rs, rowNum) -> {
+            long totalAcertos = rs.getLong("total_acertos_unicos");
+            long totalRespostas = rs.getLong("total_respostas_unicas");
+            long totalErros = totalRespostas - totalAcertos;
+
+            return new AcertosQuestaoDTO(
+                    idQuestao,
+                    enunciado,
+                    totalRespostas,
+                    totalAcertos,
+                    totalErros
+            );
+        }, idQuestao);
+
     }
 
-    // ===============================================
-    // NOVOS MÉTODOS PARA OS NOVOS RELATÓRIOS
-    // ===============================================
-
-    /**
-     * NOVO RELATÓRIO: Retorna o ranking de alunos de uma turma com base na média de notas.
-     */
+    
     public List<RankingAlunoDTO> getRankingAlunosPorTurma(int codTurma) {
         String sql = """
             WITH MediasAlunos AS (
@@ -105,9 +106,7 @@ public class RelatorioRepository {
         ), codTurma);
     }
 
-    /**
-     * NOVO RELATÓRIO: Retorna a evolução de um aluno comparada com a média da turma nas mesmas avaliações.
-     */
+    
     public List<EvolucaoComparativaDTO> getEvolucaoComparativa(int matriculaAluno, int codTurma) {
         String sql = """
             WITH MediasPorProva AS (

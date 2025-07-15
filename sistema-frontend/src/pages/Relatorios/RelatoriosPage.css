@@ -94,7 +94,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 450px;
 }
 
 .chart-card h3 {
@@ -120,4 +119,8 @@
     .filter-group {
         grid-template-columns: 1fr;
     }
+}
+
+.recharts-tooltip-item {
+  margin-bottom: 8px !important;
 }

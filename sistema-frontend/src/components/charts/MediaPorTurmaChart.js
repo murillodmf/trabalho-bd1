@@ -8,7 +8,7 @@ const MediaPorTurmaChart = ({ data, titulo }) => {
 
   const chartData = data.map(item => ({
     name: item.nomeTurma,
-    "Média de Notas": item.mediaNotas
+    "Média de Notas": item.mediaNotas ? item.mediaNotas.toFixed(2) : 0
   }));
 
   return (
@@ -17,11 +17,11 @@ const MediaPorTurmaChart = ({ data, titulo }) => {
       <ResponsiveContainer>
         <BarChart
           data={chartData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 1, right: 30, left: 20, bottom: 45 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis domain={[0, 'dataMax']} />
+          /*<YAxis domain={[0, 'dataMax + 10']} /> 
           <Tooltip />
           <Legend />
           <Bar dataKey="Média de Notas" fill="#8884d8" />

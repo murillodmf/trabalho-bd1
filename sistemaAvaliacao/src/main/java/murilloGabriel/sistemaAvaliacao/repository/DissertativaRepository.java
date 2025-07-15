@@ -37,7 +37,6 @@ public class DissertativaRepository {
         jdbc.update("DELETE FROM dissertativa WHERE id_questao = ?", idQuestao);
     }
 
-    // O MÉTODO QUE ESTAVA FALTANDO
     public Optional<Dissertativa> buscarPorIdQuestao(int idQuestao) {
         List<Dissertativa> l = jdbc.query("SELECT * FROM dissertativa WHERE id_questao = ?", mapper, idQuestao);
         return l.isEmpty() ? Optional.empty() : Optional.of(l.get(0));
