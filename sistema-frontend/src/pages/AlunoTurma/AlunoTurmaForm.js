@@ -6,28 +6,49 @@ const AlunoTurmaForm = ({ onSave, turmas, alunos }) => {
     matricula: '',
     codTurma: ''
   });
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (!formData.matricula || !formData.codTurma) {
-      alert("Por favor, selecione um aluno e uma turma.");
+      setError("Por favor, selecione um aluno e uma turma.");
       return;
     }
-    await createAlunoTurma(formData);
-    onSave();
-    setFormData({ matricula: '', codTurma: '' });
+
+    try {
+      await createAlunoTurma(formData);
+      onSave();
+      setFormData({ matricula: '', codTurma: '' });
+    } catch (err) {
+      if (err.response && err.response.status === 500) {
+        setError("Este aluno já está matriculado nesta turma.");
+      } else {
+        setError("Ocorreu um erro ao tentar matricular o aluno.");
+      }
+      console.error(err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setError('');
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Matricular Aluno em Turma</h2>
+      
+      {error && <p className="error-message">{error}</p>}
+
       <div className="form-group">
         <label htmlFor="aluno">Aluno:</label>
         <select
           id="aluno"
           name="matricula"
           value={formData.matricula}
-          onChange={(e) => setFormData({ ...formData, matricula: e.target.value })}
+          onChange={handleChange}
           required
         >
           <option value="">Selecione um aluno</option>
@@ -45,7 +66,7 @@ const AlunoTurmaForm = ({ onSave, turmas, alunos }) => {
           id="turma"
           name="codTurma"
           value={formData.codTurma}
-          onChange={(e) => setFormData({ ...formData, codTurma: e.target.value })}
+          onChange={handleChange}
           required
         >
           <option value="">Selecione uma turma</option>
