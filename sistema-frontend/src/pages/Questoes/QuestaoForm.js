@@ -70,7 +70,7 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="questao-form">
+    <form onSubmit={handleSubmit}>
       <h3>{questaoParaEditar ? 'Editar Questão' : 'Nova Questão'}</h3>
       <div className="form-group">
         <label htmlFor="tipo">Tipo:</label>
@@ -95,6 +95,7 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
           onChange={handleInputChange}
           placeholder="Digite o enunciado da questão..."
           required
+          rows={4}
         />
       </div>
 
@@ -128,14 +129,14 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
                   <button
                     type="button"
                     onClick={() => removeAlternativa(index)}
-                    className="remove-btn"
+                    className="btn btn-danger"
                   >
                     Remover
                   </button>
                 )}
               </div>
             ))}
-            <button type="button" onClick={addAlternativa} className="add-btn">
+            <button type="button" onClick={addAlternativa} className="btn-add-item">
               Adicionar Alternativa
             </button>
           </div>
@@ -149,16 +150,17 @@ const QuestaoForm = ({ questaoParaEditar, onSave, onCancel }) => {
             value={formData.respostaModelo}
             onChange={handleInputChange}
             placeholder="Digite a resposta modelo para a questão dissertativa..."
+            rows={4}
           />
         </div>
       )}
 
       <div className="form-actions">
-        <button type="submit" className="btn-save">
+        <button type="submit" className="btn btn-primary">
           {questaoParaEditar ? 'Atualizar Questão' : 'Criar Questão'}
         </button>
         {questaoParaEditar && (
-          <button type="button" onClick={onCancel} className="btn-cancel">
+          <button type="button" onClick={onCancel} className="btn btn-secondary">
             Cancelar
           </button>
         )}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createTurma, updateTurma } from '../../services/TurmaService';
-import { getProfessores } from '../../services/ProfessorService'; 
+import { getProfessores } from '../../services/ProfessorService';
 
 const TurmaForm = ({ turma, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
@@ -55,7 +55,7 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="questao-form">
+        <form onSubmit={handleSubmit}>
             <h3>{turma ? 'Editar Turma' : 'Adicionar Nova Turma'}</h3>
 
             <div className="form-group">
@@ -65,13 +65,9 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
 
             <div className="form-group">
                 <label htmlFor="materia">Matéria:</label>
-                <input id="materia" name="materia" value={formData.materia} onChange={handleChange} placeholder="Nome da Matéria" required />
+                <input id="materia" name="materia" type="text" value={formData.materia} onChange={handleChange} placeholder="Nome da Matéria" required />
             </div>
-
-            <div className="form-group">
-                <label htmlFor="quantidadeAlunos">Quantidade de Alunos:</label>
-                <input id="quantidadeAlunos" name="quantidadeAlunos" type="number" value={formData.quantidadeAlunos} onChange={handleChange} required />
-            </div>
+        
 
             <div className="form-group">
                 <label htmlFor="registroProfessor">Professor:</label>
@@ -92,8 +88,8 @@ const TurmaForm = ({ turma, onSave, onCancel }) => {
             </div>
 
             <div className="form-actions">
-                <button type="submit" className="btn-save">Salvar</button>
-                {turma && <button type="button" onClick={onCancel} className="btn-cancel">Cancelar</button>}
+                <button type="submit" className="btn btn-primary">{turma ? 'Atualizar' : 'Salvar'}</button>
+                {turma && <button type="button" onClick={onCancel} className="btn btn-secondary">Cancelar</button>}
             </div>
         </form>
     );
