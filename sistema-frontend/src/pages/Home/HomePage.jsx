@@ -38,7 +38,18 @@ const HomePage = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
             </div>
             <h3>Turmas</h3>
-            <p>Organize as turmas, matérias e matrículas.</p>
+            <p>Organize as turmas, matérias e disciplinas.</p>
+            <span className="card-arrow">&#8594;</span>
+          </div>
+        </Link>
+        
+        <Link to="/aluno-turma" className="home-card-link">
+          <div className="item-card home-card">
+            <div className="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="23" y1="11" x2="17" y2="11"></line><line x1="20" y1="8" x2="20" y2="14"></line></svg>
+            </div>
+            <h3>Matrículas</h3>
+            <p>Associe alunos às suas respectivas turmas.</p>
             <span className="card-arrow">&#8594;</span>
           </div>
         </Link>
