@@ -1,7 +1,6 @@
 package murilloGabriel.sistemaAvaliacao.repository;
 
 import murilloGabriel.sistemaAvaliacao.dto.*;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -43,41 +42,57 @@ public class RelatorioRepository {
         ), materia);
     }
 
-    public AcertosQuestaoDTO getAcertosPorQuestao(int idQuestao) {
-        String sqlQuestaoInfo = "SELECT enunciado FROM questao WHERE id_questao = ?";
-        String enunciado;
-        try {
-            enunciado = jdbc.queryForObject(sqlQuestaoInfo, String.class, idQuestao);
-        } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException("Questão com ID " + idQuestao + " não encontrada.", e);
-        }
-
-        String sqlContagem = """
-            SELECT
-                -- Conta o número de alunos únicos que acertaram a questão pelo menos uma vez
-                COUNT(DISTINCT CASE WHEN rp.nota > 0 THEN rp.matricula ELSE NULL END) as total_acertos_unicos,
-                -- Conta o número total de alunos únicos que responderam a questão
-                COUNT(DISTINCT rp.matricula) as total_respostas_unicas
-            FROM realizaProva rp
-            WHERE rp.id_questao = ?
-        """;
-
-        return jdbc.queryForObject(sqlContagem, (rs, rowNum) -> {
-            long totalAcertos = rs.getLong("total_acertos_unicos");
-            long totalRespostas = rs.getLong("total_respostas_unicas");
-            long totalErros = totalRespostas - totalAcertos;
-
-            return new AcertosQuestaoDTO(
-                    idQuestao,
-                    enunciado,
-                    totalRespostas,
-                    totalAcertos,
-                    totalErros
-            );
+    public QuestaoStatsDTO getEstatisticasPorQuestao(int idQuestao) {
+        String sqlQuestaoInfo = "SELECT enunciado, tipo FROM questao WHERE id_questao = ?";
+        
+        QuestaoStatsDTO stats = jdbc.queryForObject(sqlQuestaoInfo, (rs, rowNum) -> {
+            QuestaoStatsDTO dto = new QuestaoStatsDTO();
+            dto.setIdQuestao(idQuestao);
+            dto.setEnunciado(rs.getString("enunciado"));
+            dto.setTipo(rs.getString("tipo"));
+            return dto;
         }, idQuestao);
 
-    }
+        if (stats == null) {
+            throw new RuntimeException("Questão não encontrada.");
+        }
 
+        if ("OBJETIVA".equals(stats.getTipo())) {
+            String sqlObjetiva = """
+                SELECT
+                    COUNT(DISTINCT matricula) as total_respostas,
+                    COUNT(DISTINCT CASE WHEN nota > 0 THEN matricula ELSE NULL END) as total_acertos
+                FROM realizaProva
+                WHERE id_questao = ?
+            """;
+            jdbc.queryForObject(sqlObjetiva, (rs, rowNum) -> {
+                stats.setTotalRespostas(rs.getLong("total_respostas"));
+                stats.setTotalAcertos(rs.getLong("total_acertos"));
+                stats.setTotalErros(stats.getTotalRespostas() - stats.getTotalAcertos());
+                return stats;
+            }, idQuestao);
+        } 
+        else if ("DISSERTATIVA".equals(stats.getTipo())) {
+            String sqlDissertativa = """
+                SELECT
+                    COUNT(*) FILTER (WHERE nota >= 0 AND nota <= 3.99) as faixa1,
+                    COUNT(*) FILTER (WHERE nota >= 4 AND nota <= 6.99) as faixa2,
+                    COUNT(*) FILTER (WHERE nota >= 7 AND nota <= 10) as faixa3
+                FROM realizaProva
+                WHERE id_questao = ?
+            """;
+            jdbc.queryForObject(sqlDissertativa, (rs, rowNum) -> {
+                java.util.Map<String, Long> distribuicao = new java.util.LinkedHashMap<>();
+                distribuicao.put("Notas 0-3", rs.getLong("faixa1"));
+                distribuicao.put("Notas 4-6", rs.getLong("faixa2"));
+                distribuicao.put("Notas 7-10", rs.getLong("faixa3"));
+                stats.setDistribuicaoNotas(distribuicao);
+                return stats;
+            }, idQuestao);
+        }
+
+        return stats;
+    }
     
     public List<RankingAlunoDTO> getRankingAlunosPorTurma(int codTurma) {
         String sql = """

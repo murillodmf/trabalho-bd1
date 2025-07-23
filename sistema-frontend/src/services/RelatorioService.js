@@ -7,9 +7,9 @@ export const getMediaGeralPorTurma = async (materia) => {
     return await api.get(`${API_URL}/media-geral-por-turma/${materia}`);
 };
 
-export const getAcertosPorQuestao = async (idQuestao) => {
+export const getEstatisticasPorQuestao = async (idQuestao) => {
     if (!idQuestao) return { data: null };
-    return await api.get(`${API_URL}/acertos-por-questao/${idQuestao}`);
+    return await api.get(`${API_URL}/estatisticas-questao/${idQuestao}`);
 };
 
 export const getRankingAlunosPorTurma = async (codTurma) => {

@@ -19,9 +19,9 @@ public class RelatorioService {
         return relatorioRepository.getMediaGeralPorTurma(materia);
     }
 
-    public AcertosQuestaoDTO getAcertosPorQuestao(int idQuestao) {
-        return relatorioRepository.getAcertosPorQuestao(idQuestao);
-    }
+public QuestaoStatsDTO getEstatisticasPorQuestao(int idQuestao) {
+    return relatorioRepository.getEstatisticasPorQuestao(idQuestao);
+}
 
     public List<RankingAlunoDTO> getRankingAlunosPorTurma(int codTurma) {
         return relatorioRepository.getRankingAlunosPorTurma(codTurma);

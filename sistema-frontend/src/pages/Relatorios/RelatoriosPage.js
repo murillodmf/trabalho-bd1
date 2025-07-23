@@ -5,34 +5,34 @@ import { getTurmas } from '../../services/TurmaService';
 import { getQuestoes } from '../../services/QuestaoService';
 import {
     getMediaGeralPorTurma,
-    getAcertosPorQuestao,
-    getRankingAlunosPorTurma,     
-    getEvolucaoComparativa,      
+    getRankingAlunosPorTurma,
+    getEvolucaoComparativa,
+    getEstatisticasPorQuestao, 
 } from '../../services/RelatorioService';
 
 import MediaPorTurmaChart from '../../components/charts/MediaPorTurmaChart';
-import AcertosPorQuestaoChart from '../../components/charts/AcertosPorQuestaoChart';
 import RankingAlunosTable from '../../components/charts/RankingAlunosTable';
-import EvolucaoComparativaChart from '../../components/charts/EvolucaoComparativaChart'
+import EvolucaoComparativaChart from '../../components/charts/EvolucaoComparativaChart';
+import AcertosPorQuestaoChart from '../../components/charts/AcertosPorQuestaoChart';
+import GradeDistributionChart from '../../components/charts/GradeDistributionChart';
 import './RelatoriosPage.css';
 
 const RelatoriosPage = () => {
     const [mediaGeralData, setMediaGeralData] = useState([]);
-    const [acertosQuestaoData, setAcertosQuestaoData] = useState(null);
-    const [rankingData, setRankingData] = useState([]);                     
+    const [rankingData, setRankingData] = useState([]);
     const [evolucaoComparativaData, setEvolucaoComparativaData] = useState([]);
+    const [questaoStatsData, setQuestaoStatsData] = useState(null);
 
-    
     const [alunos, setAlunos] = useState([]);
     const [turmas, setTurmas] = useState([]);
     const [questoes, setQuestoes] = useState([]);
     const [materiasBase, setMateriasBase] = useState([]);
 
     const [selectedMateriaMediaGeral, setSelectedMateriaMediaGeral] = useState('');
-    const [selectedQuestaoId, setSelectedQuestaoId] = useState('');
     const [selectedTurmaRanking, setSelectedTurmaRanking] = useState('');
     const [selectedAlunoEvolucao, setSelectedAlunoEvolucao] = useState('');
     const [selectedTurmaEvolucao, setSelectedTurmaEvolucao] = useState('');
+    const [selectedQuestaoId, setSelectedQuestaoId] = useState('');
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -66,14 +66,7 @@ const RelatoriosPage = () => {
             setMediaGeralData(response.data);
         }
     };
-    
-    const handleFetchAcertosQuestao = async () => {
-        if (selectedQuestaoId) {
-            const response = await getAcertosPorQuestao(selectedQuestaoId);
-            setAcertosQuestaoData(response.data);
-        }
-    };
-    
+
     const handleFetchRanking = async () => {
         if (selectedTurmaRanking) {
             const response = await getRankingAlunosPorTurma(selectedTurmaRanking);
@@ -85,6 +78,13 @@ const RelatoriosPage = () => {
         if (selectedAlunoEvolucao && selectedTurmaEvolucao) {
             const response = await getEvolucaoComparativa(selectedAlunoEvolucao, selectedTurmaEvolucao);
             setEvolucaoComparativaData(response.data);
+        }
+    };
+
+    const handleFetchQuestaoStats = async () => {
+        if (selectedQuestaoId) {
+            const response = await getEstatisticasPorQuestao(selectedQuestaoId);
+            setQuestaoStatsData(response.data);
         }
     };
 
@@ -123,7 +123,7 @@ const RelatoriosPage = () => {
                     <button onClick={handleFetchMediaGeral} disabled={!selectedMateriaMediaGeral}>Gerar Gráfico Comparativo</button>
                 </div>
 
-                 <div className="filter-block">
+                <div className="filter-block">
                     <h4>Ranking de Alunos por Turma</h4>
                     <div className="filter-group-single">
                         <select value={selectedTurmaRanking} onChange={(e) => setSelectedTurmaRanking(e.target.value)}>
@@ -135,14 +135,14 @@ const RelatoriosPage = () => {
                 </div>
 
                 <div className="filter-block">
-                    <h4>Percentual de Acertos por Questão</h4>
+                    <h4>Estatísticas por Questão</h4>
                     <div className="filter-group-single">
                         <select value={selectedQuestaoId} onChange={(e) => setSelectedQuestaoId(e.target.value)}>
                             <option value="">Selecione uma Questão</option>
-                            {questoes.filter(q => q.tipo === 'OBJETIVA').map(q => (<option key={q.idQuestao} value={q.idQuestao}>ID: {q.idQuestao} - {q.enunciado.substring(0, 50)}...</option>))}
+                            {questoes.map(q => (<option key={q.idQuestao} value={q.idQuestao}>ID: {q.idQuestao} - {q.enunciado.substring(0, 50)}...</option>))}
                         </select>
                     </div>
-                    <button onClick={handleFetchAcertosQuestao} disabled={!selectedQuestaoId}>Gerar Gráfico de Acertos</button>
+                    <button onClick={handleFetchQuestaoStats} disabled={!selectedQuestaoId}>Gerar Gráfico da Questão</button>
                 </div>
             </div>
 
@@ -157,7 +157,15 @@ const RelatoriosPage = () => {
                    <RankingAlunosTable data={rankingData} turmaNome={turmas.find(t=>t.cod==selectedTurmaRanking)?.materia} />
                 </div>
                 <div className="chart-card section-card">
-                    <AcertosPorQuestaoChart data={acertosQuestaoData} />
+                    {questaoStatsData && questaoStatsData.tipo === 'OBJETIVA' && (
+                        <AcertosPorQuestaoChart data={questaoStatsData} />
+                    )}
+                    {questaoStatsData && questaoStatsData.tipo === 'DISSERTATIVA' && (
+                        <GradeDistributionChart data={questaoStatsData} />
+                    )}
+                    {!questaoStatsData && (
+                        <p>Selecione uma questão e gere o gráfico para ver as estatísticas.</p>
+                    )}
                 </div>
             </div>
         </div>

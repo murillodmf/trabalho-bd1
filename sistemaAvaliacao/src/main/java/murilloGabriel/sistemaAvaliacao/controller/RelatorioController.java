@@ -25,10 +25,10 @@ public class RelatorioController {
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/acertos-por-questao/{idQuestao}")
-    public ResponseEntity<AcertosQuestaoDTO> getAcertosPorQuestao(@PathVariable int idQuestao) {
+    @GetMapping("/estatisticas-questao/{idQuestao}")
+    public ResponseEntity<QuestaoStatsDTO> getEstatisticasPorQuestao(@PathVariable int idQuestao) {
         try {
-            AcertosQuestaoDTO data = relatorioService.getAcertosPorQuestao(idQuestao);
+            QuestaoStatsDTO data = relatorioService.getEstatisticasPorQuestao(idQuestao);
             return ResponseEntity.ok(data);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
